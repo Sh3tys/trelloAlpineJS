@@ -6,57 +6,53 @@
     <script src="https://unpkg.com/alpinejs" defer></script>
   </head>
   <body>
-    <h1>Watch exercice</h1>
+    <div x-data="taskApp">
+      <h1>Todo List</h1>
+      <input type="text" x-model="newTaskTitle" placeholder="Task Title" />
+      <input
+        type="text"
+        x-model="newTaskDescription"
+        placeholder="Task Description"
+      />
+      <select x-model="newTaskStatus">
+        <option value="toDo">À faire</option>
+        <option value="inProgress">En cours</option>
+        <option value="done">Fait</option>
+      </select>
+      <button @click="addTask()">Ajouter la tâche</button>
 
-    <div
-      x-data="todoList"
-      x-init="
-         console.log('TodoList ready');
-         $watch('tasks.length', (value) => console.log(`Tasks number: ${value}`))
-       "
-      x-effect="
-         message = tasks.length === 0 ? 'No tasks' : `You have ${tasks.length} tasks`;
-       "
-    >
-      <input type="text" x-model="newTask" placeholder="New task" />
-      <button @click="addTask()">Add task</button>
-
-      <p x-text="message"></p>
-
+      <h2>À faire</h2>
       <ul>
-        <template x-for="(task, index) in tasks" :key="index">
+        <template x-for="(task, index) in tasks.toDo" :key="index">
           <li>
-            <span x-text="task"></span>
-            <button @click="removeTask(index)">Remove</button>
+            <input type="checkbox" @change="moveTask(task, 'inProgress')" />
+            <strong x-text="task.title"></strong>:
+            <span x-text="task.description"></span>
+          </li>
+        </template>
+      </ul>
+
+      <h2>En cours</h2>
+      <ul>
+        <template x-for="(task, index) in tasks.inProgress" :key="index">
+          <li>
+            <input type="checkbox" @change="moveTask(task, 'done')" />
+            <strong x-text="task.title"></strong>:
+            <span x-text="task.description"></span>
+          </li>
+        </template>
+      </ul>
+
+      <h2>Fait</h2>
+      <ul>
+        <template x-for="(task, index) in tasks.done" :key="index">
+          <li>
+            <input type="checkbox" disabled />
+            <strong x-text="task.title"></strong>:
+            <span x-text="task.description"></span>
           </li>
         </template>
       </ul>
     </div>
-
-    <!-- Alpine script -->
-    <script>
-      document.addEventListener("alpine:init", () => {
-        Alpine.data("todoList", () => ({
-          newTask: "",
-          tasks: [],
-          message: "No task",
-
-          init() {
-            this.tasks.push("Dump task");
-          },
-
-          addTask() {
-            if (this.newTask.trim() !== "") {
-              this.tasks.push(this.newTask.trim());
-              this.newTask = "";
-            }
-          },
-
-          removeTask(index) {
-            this.tasks.splice(index, 1);
-          },
-        }));
-      });
-    </script>
   </body>
 </html>
