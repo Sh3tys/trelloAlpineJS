@@ -2,59 +2,106 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <title>Exercice Alpine.js</title>
-    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
+    <title>Trello Alpine.js</title>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-  </head>
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
+</head>
   <body>
-    <div x-data="{username: $persist('')}">
+    <div x-data="trelloApp">
 
       <h1>Trello de <span x-text="username"></span></h1>
-      <input type="text" x-model="newTaskTitle" placeholder="Task Title" />
-      <input
-        type="text"
-        x-model="newTaskDescription"
-        placeholder="Task Description"
-      />
+
+      <h2>Ajouter une nouvelle tache</h2>
+      <input type="text" x-model="newTaskTitle" placeholder="Titre de la tache" />
+      <input type="text" x-model="newTaskDescription" placeholder="Description" />
       <select x-model="newTaskStatus">
         <option value="toDo">À faire</option>
         <option value="inProgress">En cours</option>
         <option value="done">Fait</option>
       </select>
-      <button @click="addTask()">Ajouter la tâche</button>
+      <button @click="addTask()">Ajouter</button>
+
+      <section>
+        <p>Filtrer les tâches</p>
+        <input type="text" x-model="search" placeholder="Rechercher..." />
+        <template x-for="task in filteredTasks()" :key="task.title + task.description">
+          <div>
+            <strong x-text="task.title"></strong> : <span x-text="task.description"></span>
+          </div>
+        </template>
+      </section>
 
       <h2>À faire</h2>
       <ul>
-        <template x-for="(task, index) in tasks.toDo" :key="index">
+        <template x-for="task in tasks.toDo" :key="task.title + task.description">
           <li>
             <input type="checkbox" @change="moveTask(task, 'inProgress')" />
-            <strong x-text="task.title"></strong>:
-            <span x-text="task.description"></span>
+            <strong x-text="task.title"></strong> : <span x-text="task.description"></span>
           </li>
         </template>
       </ul>
 
       <h2>En cours</h2>
       <ul>
-        <template x-for="(task, index) in tasks.inProgress" :key="index">
+        <template x-for="task in tasks.inProgress" :key="task.title + task.description">
           <li>
             <input type="checkbox" @change="moveTask(task, 'done')" />
-            <strong x-text="task.title"></strong>:
-            <span x-text="task.description"></span>
+            <strong x-text="task.title"></strong> : <span x-text="task.description"></span>
           </li>
         </template>
       </ul>
 
       <h2>Fait</h2>
       <ul>
-        <template x-for="(task, index) in tasks.done" :key="index">
+        <template x-for="task in tasks.done" :key="task.title + task.description">
           <li>
-            <input type="checkbox" disabled />
-            <strong x-text="task.title"></strong>:
-            <span x-text="task.description"></span>
+            <input type="checkbox" checked disabled />
+            <strong x-text="task.title"></strong> : <span x-text="task.description"></span>
           </li>
         </template>
       </ul>
     </div>
+
+    <script>
+      document.addEventListener('alpine:init', () => {
+        Alpine.data('trelloApp', () => ({
+          username: $persist(''),
+          tasks: $persist({ toDo: [], inProgress: [], done: [] }),
+          newTaskTitle: '',
+          newTaskDescription: '',
+          newTaskStatus: 'toDo',
+          search: '',
+
+          filteredTasks() {
+            const all = [...this.tasks.toDo, ...this.tasks.inProgress, ...this.tasks.done];
+            return all.filter(t =>
+              t.title.toLowerCase().includes(this.search.toLowerCase()) ||
+              t.description.toLowerCase().includes(this.search.toLowerCase())
+            );
+          },
+
+          addTask() {
+            if (!this.newTaskTitle.trim() || !this.newTaskDescription.trim()) return;
+            this.tasks[this.newTaskStatus].push({
+              title: this.newTaskTitle.trim(),
+              description: this.newTaskDescription.trim()
+            });
+            this.newTaskTitle = '';
+            this.newTaskDescription = '';
+          },
+
+          moveTask(task, newStatus) {
+            for (const status in this.tasks) {
+              const index = this.tasks[status].indexOf(task);
+              if (index !== -1) {
+                this.tasks[status].splice(index, 1);
+                this.tasks[newStatus].push(task);
+                break;
+              }
+            }
+          }
+        }));
+      });
+    </script>
   </body>
 </html>
