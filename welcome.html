@@ -4,11 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Welcome Page</title>
-    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"
+    ></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
   </head>
   <body>
-    <div x-data="{
+    <div
+      x-data="{
           username: $persist(''),
 
           init() {
@@ -23,7 +30,7 @@
             window.location.href = './features/task.html';
           }
         }"
-        x-init="init()"
+      x-init="init()"
     >
       <p x-ref="welcomeText"></p>
       <button @click="projectDirection()">Start your assistance Project</button>

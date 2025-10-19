@@ -1,5 +1,5 @@
-import nimp from './script2.js';
+import nimp from "./script2.js";
 
 document.addEventListener("alpine:init", () => {
-        Alpine.data("testApp", nimp);
-      });
+  Alpine.data("testApp", nimp);
+});
