@@ -3,36 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <script src="https://unpkg.com/alpinejs" defer></script>
+    <title>Login Page</title>
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   </head>
   <body>
-    <!-- Champs login qui va recuperer le username et le stocker en localStorage et rediriger vers une autre page ou il sera afficher welcome avec le username et apres avoir cliquer sur login rediriger vers une page -->
-    <div x-data="loginApp" x-init="init()">
+    <div x-data="{
+          username: $persist(''),
+          login() {
+            if (this.username.trim() !== '') {
+              window.location.href = 'welcome.html';
+            }
+          }
+        }"
+    >
       <h1>Login Page</h1>
       <input type="text" x-model="username" placeholder="Enter your username" />
       <button @click="login()">Login</button>
     </div>
-    <script>
-      document.addEventListener("alpine:init", () => {
-        Alpine.data("loginApp", () => ({
-          username: "",
-
-          init() {
-            const storedUsername = localStorage.getItem("username");
-            if (storedUsername) {
-              this.username = storedUsername;
-            }
-          },
-
-          login() {
-            if (this.username.trim() !== "") {
-              localStorage.setItem("username", this.username.trim());
-              window.location.href = "welcome.html"; // Rediriger vers la page de bienvenue
-            }
-          },
-        }));
-      });
-    </script>
   </body>
 </html>
