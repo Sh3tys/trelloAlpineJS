@@ -2,12 +2,14 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
-    <title>Task Manager</title>
-    <script src="https://unpkg.com/alpinejs" defer></script>
+    <title>Exercice Alpine.js</title>
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   </head>
   <body>
-    <div x-data="taskApp">
-      <h1>Todo List</h1>
+    <div x-data="{username: $persist('')}">
+
+      <h1>Trello de <span x-text="username"></span></h1>
       <input type="text" x-model="newTaskTitle" placeholder="Task Title" />
       <input
         type="text"

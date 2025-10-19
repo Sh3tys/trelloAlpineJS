@@ -3,28 +3,30 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <script src="https://unpkg.com/alpinejs" defer></script>
+    <title>Welcome Page</title>
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   </head>
   <body>
-    <div x-data="welcomeApp" x-init="init()">
-      <p x-text="welcomeMessage"></p>
-    </div>
-    <script>
-      document.addEventListener("alpine:init", () => {
-        Alpine.data("welcomeApp", () => ({
-          welcomeMessage: "",
+    <div x-data="{
+          username: $persist(''),
 
           init() {
-            const storedUsername = localStorage.getItem("username");
-            if (storedUsername) {
-              this.welcomeMessage = `Welcome, ${storedUsername}!`;
+            if (this.username) {
+              $refs.welcomeText.textContent = `Welcome, ${this.username}!`;
             } else {
-              this.welcomeMessage = "Welcome, guest!";
+              $refs.welcomeText.textContent = 'Welcome !';
             }
           },
-        }));
-      });
-    </script>
+
+          projectDirection() {
+            window.location.href = './features/task.html';
+          }
+        }"
+        x-init="init()"
+    >
+      <p x-ref="welcomeText"></p>
+      <button @click="projectDirection()">Start your assistance Project</button>
+    </div>
   </body>
 </html>
