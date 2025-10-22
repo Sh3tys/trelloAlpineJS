@@ -1,11 +1,16 @@
 export default () => ({
-  addList(listName) {
-    if (listName.trim() !== '') {
+  listName: '',
+
+  addList() {
+    if (this.listName.trim() !== '') {
       let Lists = Alpine.store('Lists');
-      if (!Lists[listName]) {
-        Lists[listName] = [];
+      if (!Lists[this.listName]) {
+        Lists[this.listName] = [];
+      } else {
+        alert('Veuillez entrer un nom de liste.');
       }
     }
+    this.listName = '';
   },
 
   removeList(listName) {

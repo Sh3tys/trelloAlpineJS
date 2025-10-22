@@ -1,13 +1,18 @@
 export default () => ({
-  addTask(taskName, taskDesc, liste, taskCheck) {
+  taskName: '',
+  taskDesc: '',
+  liste: '',
+  taskCheck: false,
+
+  addTask() {
     let Lists = Alpine.store('Lists');
 
-    if (Lists[liste]) {
-      if (taskName.trim() !== '' && taskDesc.trim() !== '') {
-        Lists[liste].push({
-          name: taskName.trim(),
-          description: taskDesc.trim(),
-          check: taskCheck,
+    if (Lists[this.liste]) {
+      if (this.taskName.trim() !== '' && this.taskDesc.trim() !== '') {
+        Lists[this.liste].push({
+          name: this.taskName.trim(),
+          description: this.taskDesc.trim(),
+          check: this.taskCheck,
         });
       } else {
         alert('Le nom ou desc de la tâche ne peuvent pas être vides.');

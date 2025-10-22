@@ -5,10 +5,12 @@ import Task from './js/task.js';
 import Modal from './js/modal.js';
 
 document.addEventListener('alpine:init', () => {
-  Alpine.store('Lists', SuperList); //SuperListe des listes de tâches
+  Alpine.store('Lists', SuperList);
 
+  Alpine.store('modal', Modal());
+
+  // Register components
   Alpine.data('login', Login);
   Alpine.data('list', List);
   Alpine.data('task', Task);
-  Alpine.store('modal', Modal());
 });
