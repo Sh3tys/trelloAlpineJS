@@ -1,31 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login Page</title>
+
+    <script type="module" src="./app.js" defer></script>
+    <!-- ================= Alpine Plugins ICI ================= -->
     <script
       defer
       src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"
     ></script>
+
+    <!-- ================= Alpine Core PAS TOUCHER ================= -->
     <script
       defer
       src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
     ></script>
   </head>
   <body>
-    <div
-      x-data="{
-          username: $persist(''),
-          login() {
-            if (this.username.trim() !== '') {
-              window.location.href = 'welcome.html';
-            }
-          }
-        }"
-    >
+    <div x-data="login">
       <h1>Login Page</h1>
-      <input type="text" x-model="username" placeholder="Enter your username" />
+      <input
+        type="text"
+        x-model="username"
+        @keyup.enter="login()"
+        placeholder="Enter your username"
+      />
       <button @click="login()">Login</button>
     </div>
   </body>
