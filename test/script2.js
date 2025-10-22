@@ -3,7 +3,7 @@ export default () => ({
 
   login() {
     if (this.testname.trim() !== "") {
-      window.location.href = "trello.html";
+      window.location.href = "trelloTest.html";
     }
   },
 });
