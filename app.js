@@ -5,8 +5,6 @@ import Task from './js/task.js';
 import Modal from './js/modal.js';
 
 document.addEventListener('alpine:init', () => {
-  Alpine.store('Lists', SuperList);
-
   Alpine.store('modal', Modal());
 
   // Register components
