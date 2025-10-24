@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mini Trello AlpineJS</title>
+    <script src="https://unpkg.com/alpinejs" defer></script>
+  </head>
+  <body>
+    <div x-data="{ showTodo: false }">
+      <button @click="showTodo = true" x-show="!showTodo">Add Task</button>
+
+      <div x-show="showTodo">
+        <div
+          x-data="{
+            inputText: '',
+            category: 'Work',
+            items: [],
+            get filteredItems() {
+              if ($store.tabs.current === 'All') return this.items;
+              return this.items.filter(i => i.category === $store.tabs.current);
+            },
+            addItem() {
+              if (this.inputText.trim() !== '') {
+                this.items.push({ text: this.inputText.trim(), category: this.category });
+                this.inputText = '';
+              }
+            },
+            removeItem(index) {
+              this.items.splice(index, 1);
+            },
+          }"
+        >
+          <template x-for="ong in $store.tabs.onglets" :key="ong">
+            <button @click="$store.tabs.current = ong" x-text="ong"></button>
+          </template>
+          <br />
+
+          <input type="text" x-model="inputText" placeholder="Enter task" />
+
+          <select x-model="category">
+            <option value="To Do">To Do</option>
+            <option value="In Progress">In Progress</option>
+          </select>
+
+          <button @click="addItem">Add</button>
+
+          <div>
+            <template x-for="(item, index) in filteredItems" :key="index">
+              <div x-transition.opacity.duration.1000ms>
+                <span x-text="item.text"></span>
+                (<span x-text="item.category"></span>)
+                <button @click="removeItem(index)">X</button>
+              </div>
+            </template>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("alpine:init", () => {
+        Alpine.store("tabs", {
+          onglets: ["All", "To Do", "In Progress"],
+          current: "All",
+        });
+      });
+    </script>
+  </body>
+</html>
