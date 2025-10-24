@@ -5,7 +5,7 @@
     <title>Trello Alpine.js</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script type="module" src="./app.js" defer></script>
-    <!-- Alpine Plugins -->
+    <!-- Alpine Persist -->
     <script
       defer
       src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"
@@ -16,14 +16,11 @@
       defer
       src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
     ></script>
+
     <link rel="stylesheet" href="./app.css" />
   </head>
 
   <body>
-    <div x-data="login">
-      <h1>Trello de <span x-text="username"></span></h1>
-    </div>
-
     <div
       class="modal-backdrop"
       role="dialog"
@@ -33,13 +30,16 @@
       x-cloak
     >
       <div class="modal-content">
-        <div>intérieur modal</div>
         <button @click="$store.modal.toggle()">Close</button>
       </div>
     </div>
 
     <div x-data>
       <button @click="$store.modal.toggle()">Ouvrir le modal</button>
+    </div>
+
+    <div>
+      <span x-text=""></span>
     </div>
   </body>
 </html>
