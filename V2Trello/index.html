@@ -3,68 +3,167 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mini Trello AlpineJS</title>
-    <script src="https://unpkg.com/alpinejs" defer></script>
+    <title>Document</title>
+
+    <!-- Alpine Persist -->
+    <script src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
+
+    <!-- Alpine Core -->
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+    <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <div x-data="{ showTodo: false }">
-      <button @click="showTodo = true" x-show="!showTodo">Add Task</button>
+    <!--CODE FOR TODO-->
+    <div x-data>
+      <span>Liste TODO :</span>
 
-      <div x-show="showTodo">
+      <ul>
+        <template x-for="(v, i) in $store.dataStore.Todo" :key="i">
+          <li x-text="v"></li>
+        </template>
+      </ul>
+      <!--MODAL FOR ADD TASK IN TODO-->
+      <div>
         <div
-          x-data="{
-            inputText: '',
-            category: 'Work',
-            items: [],
-            get filteredItems() {
-              if ($store.tabs.current === 'All') return this.items;
-              return this.items.filter(i => i.category === $store.tabs.current);
-            },
-            addItem() {
-              if (this.inputText.trim() !== '') {
-                this.items.push({ text: this.inputText.trim(), category: this.category });
-                this.inputText = '';
-              }
-            },
-            removeItem(index) {
-              this.items.splice(index, 1);
-            },
-          }"
+          class="modal-backdrop"
+          role="dialog"
+          x-data
+          x-show="$store.dataStore.openTodo"
+          x-transition.opacity.duration.300ms
+          x-cloak
         >
-          <template x-for="ong in $store.tabs.onglets" :key="ong">
-            <button @click="$store.tabs.current = ong" x-text="ong"></button>
-          </template>
-          <br />
-
-          <input type="text" x-model="inputText" placeholder="Enter task" />
-
-          <select x-model="category">
-            <option value="To Do">To Do</option>
-            <option value="In Progress">In Progress</option>
-          </select>
-
-          <button @click="addItem">Add</button>
-
-          <div>
-            <template x-for="(item, index) in filteredItems" :key="index">
-              <div x-transition.opacity.duration.1000ms>
-                <span x-text="item.text"></span>
-                (<span x-text="item.category"></span>)
-                <button @click="removeItem(index)">X</button>
-              </div>
-            </template>
+          <div
+            class="modal-content"
+            x-data="{
+            nameTask : '',
+            desckTask : '',
+          }"
+          >
+            <input type="text" x-model="nameTask" />
+            <input type="text" x-model="desckTask" />
+            <button
+              @click="$store.dataStore.Todo.push([nameTask, desckTask, false]); $store.dataStore.openTodo = !$store.dataStore.openTodo"
+            >
+              Add
+            </button>
+            <button
+              @click="$store.dataStore.openTodo = !$store.dataStore.openTodo"
+            >
+              Close TODO
+            </button>
           </div>
         </div>
       </div>
+      <div x-data>
+        <button @click="$store.dataStore.openTodo = !$store.dataStore.openTodo">
+          Ouvrir le modal
+        </button>
+      </div>
     </div>
 
-    <script>
-      document.addEventListener("alpine:init", () => {
-        Alpine.store("tabs", {
-          onglets: ["All", "To Do", "In Progress"],
-          current: "All",
-        });
-      });
-    </script>
+    <!--CODE FOR DOING-->
+    <div x-data>
+      <span>Liste DOING :</span>
+
+      <ul>
+        <template x-for="(v, i) in $store.dataStore.Doing" :key="i">
+          <li x-text="v"></li>
+        </template>
+      </ul>
+
+      <!--MODAL FOR ADD TASK IN DOING-->
+      <div>
+        <div
+          class="modal-backdrop"
+          role="dialog"
+          x-data
+          x-show="$store.dataStore.openDoing"
+          x-transition.opacity.duration.300ms
+          x-cloak
+        >
+          <div
+            class="modal-content"
+            x-data="{
+            nameTask : '',
+            desckTask : '',
+          }"
+          >
+            <input type="text" x-model="nameTask" />
+            <input type="text" x-model="desckTask" />
+            <button
+              @click="$store.dataStore.Doing.push([nameTask, desckTask, false]); $store.dataStore.openDoing = !$store.dataStore.openDoing"
+            >
+              Add
+            </button>
+            <button
+              @click="$store.dataStore.openDoing = !$store.dataStore.openDoing"
+            >
+              Close DOING
+            </button>
+          </div>
+        </div>
+      </div>
+      <div x-data>
+        <button
+          @click="$store.dataStore.openDoing = !$store.dataStore.openDoing"
+        >
+          Ouvrir le modal
+        </button>
+      </div>
+    </div>
+
+    <!--CODE FOR DONE-->
+    <div x-data>
+      <span>Liste DONE :</span>
+
+      <ul>
+        <template x-for="(v, i) in $store.dataStore.Done" :key="i">
+          <li x-text="v"></li>
+        </template>
+      </ul>
+
+      <!--MODAL FOR ADD TASK IN DONE-->
+      <div>
+        <div
+          class="modal-backdrop"
+          role="dialog"
+          x-data
+          x-show="$store.dataStore.openDone"
+          x-transition.opacity.duration.300ms
+          x-cloak
+        >
+          <div
+            class="modal-content"
+            x-data="{
+            nameTask : '',
+            desckTask : '',
+          }"
+          >
+            <input type="text" x-model="nameTask" />
+            <input type="text" x-model="desckTask" />
+            <button
+              @click="$store.dataStore.Done.push([nameTask, desckTask, false]); $store.dataStore.openDone = !$store.dataStore.openDone"
+            >
+              Add
+            </button>
+            <button
+              @click="$store.dataStore.openDone = !$store.dataStore.openDone"
+            >
+              Close DONE
+            </button>
+          </div>
+        </div>
+      </div>
+      <div x-data>
+        <button @click="$store.dataStore.openDone = !$store.dataStore.openDone">
+          Ouvrir le modal
+        </button>
+      </div>
+    </div>
+
+    <script src="./app.js"></script>
   </body>
 </html>
