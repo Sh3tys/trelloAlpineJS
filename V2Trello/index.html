@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <!-- Alpine Persist -->
+    <script src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
+
+    <!-- Alpine Core -->
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+  </head>
+  <body>
+    <div x-data>
+      <span x-text="$store.dataStore.Todo"></span>
+
+      <ul>
+        <template x-for="(v, i) in $store.dataStore.Todo" :key="i">
+          <li x-text="v"></li>
+        </template>
+      </ul>
+
+      <button @click="$store.dataStore.Todo.push(1)">Add</button>
+    </div>
+
+    <div x-data>
+      <span x-text="$store.dataStore.Doing"></span>
+
+      <ul>
+        <template x-for="(v, i) in $store.dataStore.Doing" :key="i">
+          <li x-text="v"></li>
+        </template>
+      </ul>
+
+      <button @click="$store.dataStore.Doing.push(1)">Add</button>
+    </div>
+
+    <div x-data>
+      <span x-text="$store.dataStore.Done"></span>
+
+      <ul>
+        <template x-for="(v, i) in $store.dataStore.Done" :key="i">
+          <li x-text="v"></li>
+        </template>
+      </ul>
+
+      <button @click="$store.dataStore.Done.push(1)">Add</button>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
