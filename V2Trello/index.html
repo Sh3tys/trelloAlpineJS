@@ -13,16 +13,29 @@
       defer
       src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
     ></script>
-    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./app.css" />
   </head>
   <body>
     <!--CODE FOR TODO-->
-    <div x-data>
+    <div x-data class="list">
       <span>Liste TODO :</span>
 
       <ul>
         <template x-for="(v, i) in $store.dataStore.Todo" :key="i">
-          <li x-text="v"></li>
+          <li x-data>
+            <div>
+              <span
+                @dblclick="$store.dataStore.openTodo = !$store.dataStore.openTodo"
+                >Nom : <span x-text="v[0]"></span
+              ></span>
+            </div>
+            <div>
+              <span>Description: <span x-text="v[1]"></span></span>
+            </div>
+            <div>
+              <span>Complété :<input type="checkbox" x-model="v[2]" /></span>
+            </div>
+          </li>
         </template>
       </ul>
       <!--MODAL FOR ADD TASK IN TODO-->
@@ -65,7 +78,7 @@
     </div>
 
     <!--CODE FOR DOING-->
-    <div x-data>
+    <div x-data class="list">
       <span>Liste DOING :</span>
 
       <ul>
@@ -116,7 +129,7 @@
     </div>
 
     <!--CODE FOR DONE-->
-    <div x-data>
+    <div x-data class="list">
       <span>Liste DONE :</span>
 
       <ul>
