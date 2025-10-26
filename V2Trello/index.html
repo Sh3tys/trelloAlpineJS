@@ -14,7 +14,7 @@
         <div
           x-data="{
             inputText: '',
-            category: 'Work',
+            category: 'To Do',
             items: [],
             get filteredItems() {
               if ($store.tabs.current === 'All') return this.items;
@@ -54,6 +54,110 @@
               </div>
             </template>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("alpine:init", () => {
+        Alpine.store("tabs", {
+          onglets: ["All", "To Do", "In Progress"],
+          current: "All",
+        });
+      });
+    </script>
+  </body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mini Trello AlpineJS</title>
+    <script src="https://unpkg.com/alpinejs" defer></script>
+  </head>
+  <body>
+    <div x-data="{ showTodo: false }">
+      <button @click="showTodo = true" x-show="!showTodo">Add Task</button>
+
+      <div x-show="showTodo">
+        <div
+          x-data="{
+            inputText: '',
+            category: 'To Do',
+            items: [],
+            get filteredItems() {
+              if ($store.tabs.current === 'All') return this.items;
+              return this.items.filter(i => i.category === $store.tabs.current);
+            },
+            addItem() {
+              if (this.inputText.trim() !== '') {
+                this.items.push({ text: this.inputText.trim(), category: this.category });
+                this.inputText = '';
+              }
+            },
+            removeItem(index) {
+              this.items.splice(index, 1);
+            },
+          }"
+        >
+          <!-- Onglets de filtre -->
+          <template x-for="ong in $store.tabs.onglets" :key="ong">
+            <button
+              @click="$store.tabs.current = ong"
+              :class="{ 'font-bold': $store.tabs.current === ong }"
+              x-text="ong"
+            ></button>
+          </template>
+
+          <hr />
+
+          <!-- Formulaire -->
+          <input type="text" x-model="inputText" placeholder="Enter task" />
+          <select x-model="category">
+            <option value="To Do">To Do</option>
+            <option value="In Progress">In Progress</option>
+          </select>
+          <button @click="addItem">Add</button>
+
+          <hr />
+
+          <!-- Section To Do -->
+          <template
+            x-if="$store.tabs.current === 'All' || $store.tabs.current === 'To Do'"
+          >
+            <div>
+              <h1>To Do</h1>
+              <template
+                x-for="(item, index) in filteredItems.filter(i => i.category === 'To Do')"
+                :key="index"
+              >
+                <div>
+                  <span x-text="item.text"></span>
+                  <button @click="removeItem(index)">X</button>
+                </div>
+              </template>
+            </div>
+          </template>
+
+          <!-- Section In Progress -->
+          <template
+            x-if="$store.tabs.current === 'All' || $store.tabs.current === 'In Progress'"
+          >
+            <div>
+              <h1>In Progress</h1>
+              <template
+                x-for="(item, index) in filteredItems.filter(i => i.category === 'In Progress')"
+                :key="index"
+              >
+                <div>
+                  <span x-text="item.text"></span>
+                  <button @click="removeItem(index)">X</button>
+                </div>
+              </template>
+            </div>
+          </template>
         </div>
       </div>
     </div>
