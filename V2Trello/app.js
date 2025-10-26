@@ -1,3 +1,4 @@
+//app.js
 document.addEventListener('alpine:init', () => {
   Alpine.store('dataStore', {
     Todo: Alpine.$persist([]).as('Todo'),
