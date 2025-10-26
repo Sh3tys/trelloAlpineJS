@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Trello Alpine.js</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script type="module" src="./app.js" defer></script>
+    <!-- Alpine Persist -->
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"
+    ></script>
+
+    <!-- Alpine Core -->
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+
+    <link rel="stylesheet" href="./app.css" />
+  </head>
+
+  <body>
+    <div
+      class="modal-backdrop"
+      role="dialog"
+      x-data
+      x-show="$store.modal.on"
+      x-transition.opacity.duration.300ms
+      x-cloak
+    >
+      <div class="modal-content">
+        <button @click="$store.modal.toggle()">Close</button>
+      </div>
+    </div>
+
+    <div x-data>
+      <button @click="$store.modal.toggle()">Ouvrir le modal</button>
+    </div>
+
+    <div>
+      <span x-text=""></span>
+    </div>
+  </body>
+</html>

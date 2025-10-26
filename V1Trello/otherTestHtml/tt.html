@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Trello Alpine.js</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Alpine Persist -->
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"
+    ></script>
+
+    <!-- Alpine Core -->
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+  </head>
+
+  <body class="p-4">
+    <div x-data="SuperList">
+      <h1 x-text="Lists.test"></h1>
+      <h2 x-text="Lists.age"></h2>
+
+    <script>
+      document.addEventListener('alpine:init', () => {
+        Alpine.data('SuperList', () => ({
+          Lists: Alpine.$persist({'Todo': [['DumpTask', 'DescDump', false]]}).as('Lists'),
+        }));
+      });
+    </script>
+  </body>
+</html>

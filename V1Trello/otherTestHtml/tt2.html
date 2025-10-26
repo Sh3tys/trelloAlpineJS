@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Trello Alpine.js</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Alpine Core -->
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+  </head>
+
+  <body class="p-4">
+    <div x-data="app">
+      <h1 class="text-xl font-bold mb-3">
+        Trello Alpine.js (version JS classique)
+      </h1>
+
+      <!-- Ajouter une nouvelle liste -->
+      <div class="mb-4">
+        <input
+          type="text"
+          x-model="newListName"
+          placeholder="Nom de la liste"
+        />
+        <button @click="addList()">Ajouter une liste</button>
+      </div>
+
+      <!-- Afficher toutes les listes -->
+      <template x-for="(tasks, listName) in lists" :key="listName">
+        <div class="border p-2 mb-3">
+          <h2 class="font-semibold" x-text="listName"></h2>
+
+          <!-- Ajouter une tâche -->
+          <div class="mb-2">
+            <input type="text" x-model="newTask" placeholder="Nouvelle tâche" />
+            <button @click="addTask(listName)">+ Ajouter</button>
+          </div>
+
+          <!-- Liste des tâches -->
+          <ul>
+            <template x-for="(task, index) in tasks" :key="index">
+              <li>
+                <input
+                  type="checkbox"
+                  x-model="task[2]"
+                  @change="saveLists()"
+                />
+                <span x-text="task[0]"></span> -
+                <em x-text="task[1]"></em>
+              </li>
+            </template>
+          </ul>
+        </div>
+      </template>
+    </div>
+
+    <script>
+      document.addEventListener('alpine:init', () => {
+        Alpine.data('app', () => ({
+          // Données
+          lists: JSON.parse(localStorage.getItem('Lists')) || {},
+          newListName: '',
+          newTask: '',
+
+          // Sauvegarde dans le localStorage
+          saveLists() {
+            localStorage.setItem('Lists', JSON.stringify(this.lists));
+          },
+
+          // Ajouter une nouvelle liste
+          addList() {
+            const name = this.newListName.trim();
+            if (!name) return;
+            if (!this.lists[name]) {
+              this.lists[name] = [];
+              this.saveLists();
+              this.newListName = '';
+            }
+          },
+
+          // Ajouter une tâche dans une liste donnée
+          addTask(listName) {
+            if (!this.newTask) return;
+            this.lists[listName].push([
+              this.newTask,
+              `Description de ${this.newTask}`,
+              false,
+            ]);
+            this.saveLists();
+            this.newTask = '';
+          },
+        }));
+      });
+    </script>
+  </body>
+</html>

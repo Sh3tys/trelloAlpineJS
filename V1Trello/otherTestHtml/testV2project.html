@@ -1,0 +1,14 @@
+<div x-data="dataStorage">
+  <span x-text="Todo"></span>
+
+  <ul>
+    <template x-for="(v, i) in Todo" :key="i">
+      <li x-text="v"></li>
+    </template>
+  </ul>
+
+  <button @click="Todo.push('azerty')">Add</button>
+</div>
+
+// Alpine.data('dataStorage', () => ({ // Todo: Alpine.$persist([]).as('Todo'),
+// }));

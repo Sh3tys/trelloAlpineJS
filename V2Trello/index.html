@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <!-- Alpine Persist -->
+    <script src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
+
+    <!-- Alpine Core -->
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <!--CODE FOR TODO-->
+    <div x-data>
+      <span>Liste TODO :</span>
+
+      <ul>
+        <template x-for="(v, i) in $store.dataStore.Todo" :key="i">
+          <li x-text="v"></li>
+        </template>
+      </ul>
+      <!--MODAL FOR ADD TASK IN TODO-->
+      <div>
+        <div
+          class="modal-backdrop"
+          role="dialog"
+          x-data
+          x-show="$store.dataStore.openTodo"
+          x-transition.opacity.duration.300ms
+          x-cloak
+        >
+          <div
+            class="modal-content"
+            x-data="{
+            nameTask : '',
+            desckTask : '',
+          }"
+          >
+            <input type="text" x-model="nameTask" />
+            <input type="text" x-model="desckTask" />
+            <button
+              @click="$store.dataStore.Todo.push([nameTask, desckTask, false]); $store.dataStore.openTodo = !$store.dataStore.openTodo"
+            >
+              Add
+            </button>
+            <button
+              @click="$store.dataStore.openTodo = !$store.dataStore.openTodo"
+            >
+              Close TODO
+            </button>
+          </div>
+        </div>
+      </div>
+      <div x-data>
+        <button @click="$store.dataStore.openTodo = !$store.dataStore.openTodo">
+          Ouvrir le modal
+        </button>
+      </div>
+    </div>
+
+    <!--CODE FOR DOING-->
+    <div x-data>
+      <span>Liste DOING :</span>
+
+      <ul>
+        <template x-for="(v, i) in $store.dataStore.Doing" :key="i">
+          <li x-text="v"></li>
+        </template>
+      </ul>
+
+      <!--MODAL FOR ADD TASK IN DOING-->
+      <div>
+        <div
+          class="modal-backdrop"
+          role="dialog"
+          x-data
+          x-show="$store.dataStore.openDoing"
+          x-transition.opacity.duration.300ms
+          x-cloak
+        >
+          <div
+            class="modal-content"
+            x-data="{
+            nameTask : '',
+            desckTask : '',
+          }"
+          >
+            <input type="text" x-model="nameTask" />
+            <input type="text" x-model="desckTask" />
+            <button
+              @click="$store.dataStore.Doing.push([nameTask, desckTask, false]); $store.dataStore.openDoing = !$store.dataStore.openDoing"
+            >
+              Add
+            </button>
+            <button
+              @click="$store.dataStore.openDoing = !$store.dataStore.openDoing"
+            >
+              Close DOING
+            </button>
+          </div>
+        </div>
+      </div>
+      <div x-data>
+        <button
+          @click="$store.dataStore.openDoing = !$store.dataStore.openDoing"
+        >
+          Ouvrir le modal
+        </button>
+      </div>
+    </div>
+
+    <!--CODE FOR DONE-->
+    <div x-data>
+      <span>Liste DONE :</span>
+
+      <ul>
+        <template x-for="(v, i) in $store.dataStore.Done" :key="i">
+          <li x-text="v"></li>
+        </template>
+      </ul>
+
+      <!--MODAL FOR ADD TASK IN DONE-->
+      <div>
+        <div
+          class="modal-backdrop"
+          role="dialog"
+          x-data
+          x-show="$store.dataStore.openDone"
+          x-transition.opacity.duration.300ms
+          x-cloak
+        >
+          <div
+            class="modal-content"
+            x-data="{
+            nameTask : '',
+            desckTask : '',
+          }"
+          >
+            <input type="text" x-model="nameTask" />
+            <input type="text" x-model="desckTask" />
+            <button
+              @click="$store.dataStore.Done.push([nameTask, desckTask, false]); $store.dataStore.openDone = !$store.dataStore.openDone"
+            >
+              Add
+            </button>
+            <button
+              @click="$store.dataStore.openDone = !$store.dataStore.openDone"
+            >
+              Close DONE
+            </button>
+          </div>
+        </div>
+      </div>
+      <div x-data>
+        <button @click="$store.dataStore.openDone = !$store.dataStore.openDone">
+          Ouvrir le modal
+        </button>
+      </div>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
