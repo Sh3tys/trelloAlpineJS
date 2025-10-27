@@ -17,36 +17,8 @@
 
 <body>
   <button>ⓘ</button>
-  <!-- ===================== TOTAL TASKS ===================== -->
+  <!-- ===================== ADD AND TOTAL TASKS ===================== -->
    <div x-data>
-    <span>Vous avez <span x-text="$store.dataStore.Todo.length + $store.dataStore.Doing.length + $store.dataStore.Done.length"></span> tache<span x-text="(($store.dataStore.Todo.length + $store.dataStore.Doing.length + $store.dataStore.Done.length) > 1) ? 's' : '' "> </span>
-   </div>
-
-
-
-  <!-- ===================== TODO ===================== -->
-  <div x-data class="list">
-    <span>Liste TODO (<span x-text="$store.dataStore.Todo.length"></span> tache<span x-text="($store.dataStore.Todo.length > 1) ? 's' : '' "></span>):</span>
-
-    <ul>
-      <template x-for="(v, i) in $store.dataStore.Todo" :key="i">
-        <li @dblclick="$store.dataStore.openEditModal('Todo', i, v)">
-          <div>
-            <span>Nom : <span x-text="v[0]"></span></span>
-          </div>
-          <div>
-            <span>Description : <span x-text="v[1]"></span></span>
-          </div>
-          <div>
-            <span>
-              Complété :
-              <input type="checkbox" :checked="v[2]" @change="$store.dataStore.handleCheckbox('Todo', i)" />
-            </span>
-          </div>
-        </li>
-      </template>
-    </ul>
-
     <!-- MODAL TODO -->
     <div>
       <div class="modal-backdrop" role="dialog" x-data x-show="$store.dataStore.openTodo"
@@ -78,10 +50,55 @@
           <button @click="$store.dataStore.openTodo = false; videInput()">Fermer</button>
         </div>
       </div>
-    </div>
 
-    <!-- Bouton d’ouverture -->
-    <button @click="$store.dataStore.openTodo = true">Ouvrir le modal</button>
+    <span>Vous avez <span x-text="$store.dataStore.Todo.length + $store.dataStore.Doing.length + $store.dataStore.Done.length"></span> tache<span x-text="(($store.dataStore.Todo.length + $store.dataStore.Doing.length + $store.dataStore.Done.length) > 1) ? 's' : '' "></span> → </span>
+    <button @click="$store.dataStore.openTodo = true">Ajouter une tache</button>
+   </div>
+
+  <!-- ===================== RESEARCH TASK ===================== -->
+   <div x-data>
+      <input type="text" placeholder="rechercher une tache" x-model="$store.dataStore.search">
+
+    <ul x-show="$store.dataStore.search.trim()">
+  <template x-for="(task, i) in $store.dataStore.Todo.map(task => ({ nametask : task[0], desc: task[1], done: task[2], list: 'Todo' }))
+        .concat($store.dataStore.Doing.map(task => ({ nametask : task[0], desc: task[1], done: task[2], list: 'Doing' })))
+        .concat($store.dataStore.Done.map(task => ({ nametask : task[0], desc: task[1], done: task[2], list: 'Done' })))
+        .filter(task => task.nametask.includes($store.dataStore.search) || task.desc.includes($store.dataStore.search))
+      " :key="i">
+    <li>
+      <div>Nom : <span x-text="task.nametask"></span></div>
+      <div>Description : <span x-text="task.desc"></span></div>
+      <div>Liste actuelle : <span x-text="task.list"></span></div>
+    </li>
+  </template>
+</ul>
+   </div>
+
+
+
+  <!-- ===================== TODO ===================== -->
+  <div x-data class="list">
+    <span>Liste TODO (<span x-text="$store.dataStore.Todo.length"></span> tache<span x-text="($store.dataStore.Todo.length > 1) ? 's' : '' "></span>):</span>
+
+    <ul>
+      <template x-for="(v, i) in $store.dataStore.Todo" :key="i">
+        <li @dblclick="$store.dataStore.openEditModal('Todo', i, v)">
+          <div>
+            <span>Nom : <span x-text="v[0]"></span></span>
+          </div>
+          <div>
+            <span>Description : <span x-text="v[1]"></span></span>
+          </div>
+          <div>
+            <span>
+              Complété :
+              <input type="checkbox" :checked="v[2]" @change="$store.dataStore.handleCheckbox('Todo', i)" />
+            </span>
+          </div>
+        </li>
+      </template>
+    </ul>
+  </div>
 
 
     <!-- ===================== DOING ===================== -->
@@ -185,7 +202,7 @@
     </div>
 
 
-    <script src="./app.js"></script>
+  <script src="./app.js"></script>
 </body>
 
 </html>

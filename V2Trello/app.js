@@ -10,6 +10,7 @@ document.addEventListener('alpine:init', () => {
     openEdit: false,
 
     editTaskData: { list: '', index: -1, name: '', desc: '' },
+    search: '',
 
     moveTask(fromList, toList, index) {
       const task = fromList[index];
@@ -55,18 +56,6 @@ document.addEventListener('alpine:init', () => {
       else if (listName === 'Doing')
         this.moveTask(this.Doing, this.Done, index);
       else if (listName === 'Done') this.deleteTask(this.Done, index);
-    },
-
-    research(titleTask) {
-      if (titleTask in this.Todo) {
-        return this.Todo.filter((fruit) => fruit.includes(titleTask));
-      } else if (titleTask in this.Doing) {
-        return this.fruits.filter((fruit) => fruit.includes(this.search));
-      } else if (titleTask in this.Done) {
-        return this.fruits.filter((fruit) => fruit.includes(this.search));
-      } else {
-        alert("Désolé mais la tache demandé n'est pas trouvé");
-      }
     },
   });
 });
