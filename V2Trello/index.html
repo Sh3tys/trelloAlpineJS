@@ -17,11 +17,16 @@
 
 <body>
   <button>ⓘ</button>
+  <!-- ===================== TOTAL TASKS ===================== -->
+   <div x-data>
+    <span>Vous avez <span x-text="$store.dataStore.Todo.length + $store.dataStore.Doing.length + $store.dataStore.Done.length"></span> tache<span x-text="(($store.dataStore.Todo.length + $store.dataStore.Doing.length + $store.dataStore.Done.length) > 1) ? 's' : '' "> </span>
+   </div>
+
 
 
   <!-- ===================== TODO ===================== -->
   <div x-data class="list">
-    <span>Liste TODO :</span>
+    <span>Liste TODO (<span x-text="$store.dataStore.Todo.length"></span> tache<span x-text="($store.dataStore.Todo.length > 1) ? 's' : '' "></span>):</span>
 
     <ul>
       <template x-for="(v, i) in $store.dataStore.Todo" :key="i">
@@ -80,8 +85,9 @@
 
 
     <!-- ===================== DOING ===================== -->
-    <div x-data class="list">
-      <span>Liste DOING :</span>
+    <div x-data
+      class="list">
+      <span>Liste DOING (<span x-text="$store.dataStore.Doing.length"></span> tache<span x-text="($store.dataStore.Doing.length > 1)?  's' : '' "></span>) :</span>
 
       <ul>
         <template x-for="(v, i) in $store.dataStore.Doing" :key="i">
@@ -105,7 +111,7 @@
 
     <!-- ===================== DONE ===================== -->
     <div x-data class="list">
-      <span>Liste DONE :</span>
+      <span>Liste DONE (<span x-text="$store.dataStore.Done.length"></span> tache<span x-text="($store.dataStore.Done.length > 1)?  's' : '' "></span>) :</span>
 
       <ul>
         <template x-for="(v, i) in $store.dataStore.Done" :key="i">
