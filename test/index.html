@@ -11,24 +11,17 @@
     ></script>
   </head>
   <body>
+    <div id="test"></div>
     <div x-data>
-      <button @click="$store.affichage.afficher = !$store.affichage.afficher">
+      <button @click="$store.affichage2.afficher = !$store.affichage2.afficher">
         Affiche Text
       </button>
-      <div x-data x-show="$store.affichage.afficher">
+      <div x-data x-show="$store.affichage2.afficher">
         <p>Texte...</p>
       </div>
     </div>
 
-    <script>
-      document.addEventListener('alpine:init', () => {
-        Alpine.store('affichage', {
-          afficher: false,
-        });
-        Alpine.store('affichage2', {
-          afficher: true,
-        });
-      });
-    </script>
+    <script src="./script.js"></script>
+    <script src="./test.js"></script>
   </body>
 </html>

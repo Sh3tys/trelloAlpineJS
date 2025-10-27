@@ -1,182 +1,185 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+<html lang="fr">
 
-    <!-- Alpine Persist -->
-    <script src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trello AlpineJS</title>
 
-    <!-- Alpine Core -->
-    <script
-      defer
-      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
-    ></script>
-    <link rel="stylesheet" href="./app.css" />
-  </head>
-  <body>
-    <!-- CODE FOR TODO-->
-    <div x-data class="list">
-      <span>Liste TODO :</span>
+  <!-- Alpine Persist -->
+  <script src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
 
-      <ul>
-        <template x-for="(v, i) in $store.dataStore.Todo" :key="i">
-          <li x-data>
-            <div>
-              <span
-                @dblclick="$store.dataStore.openTodo = !$store.dataStore.openTodo"
-                >Nom : <span x-text="v[0]"></span
-              ></span>
-            </div>
-            <div>
-              <span>Description: <span x-text="v[1]"></span></span>
-            </div>
-            <div>
-              <span>Complété :<input type="checkbox" x-model="v[2]" /></span>
-            </div>
-          </li>
-        </template>
-      </ul>
-      <!--MODAL FOR ADD TASK IN TODO-->
-      <div>
-        <div
-          class="modal-backdrop"
-          role="dialog"
-          x-data
-          x-show="$store.dataStore.openTodo"
-          x-transition.opacity.duration.300ms
-          x-cloak
-        >
-          <div
-            class="modal-content"
-            x-data="{
-            nameTask : '',
-            desckTask : '',
-          }"
-          >
-            <input type="text" x-model="nameTask" />
-            <input type="text" x-model="desckTask" />
-            <button
-              @click="$store.dataStore.Todo.push([nameTask, desckTask, false]); $store.dataStore.openTodo = !$store.dataStore.openTodo"
-            >
-              Add
-            </button>
-            <button
-              @click="$store.dataStore.openTodo = !$store.dataStore.openTodo"
-            >
-              Close TODO
-            </button>
+  <!-- Alpine Core -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <link rel="stylesheet" href="./app.css" />
+</head>
+
+<body>
+  <button>ⓘ</button>
+
+
+  <!-- ===================== TODO ===================== -->
+  <div x-data class="list">
+    <span>Liste TODO :</span>
+
+    <ul>
+      <template x-for="(v, i) in $store.dataStore.Todo" :key="i">
+        <li @dblclick="$store.dataStore.openEditModal('Todo', i, v)">
+          <div>
+            <span>Nom : <span x-text="v[0]"></span></span>
           </div>
+          <div>
+            <span>Description : <span x-text="v[1]"></span></span>
+          </div>
+          <div>
+            <span>
+              Complété :
+              <input type="checkbox" :checked="v[2]" @change="$store.dataStore.handleCheckbox('Todo', i)" />
+            </span>
+          </div>
+        </li>
+      </template>
+    </ul>
+
+    <!-- MODAL TODO -->
+    <div>
+      <div class="modal-backdrop" role="dialog" x-data x-show="$store.dataStore.openTodo"
+        x-transition.opacity.duration.300ms x-cloak>
+        <div class="modal-content" x-data="{
+        nameTask: '',
+        desckTask: '',
+        videInput() {
+          this.nameTask = '';
+          this.desckTask = '';
+        }
+      }" x-init="$watch('$store.dataStore.openTodo', value => { if (value) videInput() })">
+       <h3>Ajouter la tâche</h3>
+          <input type="text" placeholder='Nom de la tâche' x-model='nameTask' />
+          <textarea placeholder='Description' x-model='desckTask' rows='3'></textarea>
+
+          <button @click="
+          if (nameTask.trim() !== '') {
+            $store.dataStore.Todo.push([nameTask, desckTask, false]);
+            $store.dataStore.openTodo = false;
+            videInput();
+          } else {
+            alert('Veuillez entrer un nom de tâche.');
+          }
+        ">
+            Ajouter
+          </button>
+
+          <button @click="$store.dataStore.openTodo = false; videInput()">Fermer</button>
         </div>
-      </div>
-      <div x-data>
-        <button @click="$store.dataStore.openTodo = !$store.dataStore.openTodo">
-          Ouvrir le modal
-        </button>
       </div>
     </div>
 
-    <!--CODE FOR DOING-->
+    <!-- Bouton d’ouverture -->
+    <button @click="$store.dataStore.openTodo = true">Ouvrir le modal</button>
+
+
+    <!-- ===================== DOING ===================== -->
     <div x-data class="list">
       <span>Liste DOING :</span>
 
       <ul>
         <template x-for="(v, i) in $store.dataStore.Doing" :key="i">
-          <li x-text="v"></li>
+          <li @dblclick="$store.dataStore.openEditModal('Doing', i, v)">
+            <div>
+              <span>Nom : <span x-text="v[0]"></span></span>
+            </div>
+            <div>
+              <span>Description : <span x-text="v[1]"></span></span>
+            </div>
+            <div>
+              <span>
+                Complété :
+                <input type="checkbox" :checked="v[2]" @change="$store.dataStore.handleCheckbox('Doing', i)" />
+              </span>
+            </div>
+          </li>
         </template>
       </ul>
-
-      <!--MODAL FOR ADD TASK IN DOING-->
-      <div>
-        <div
-          class="modal-backdrop"
-          role="dialog"
-          x-data
-          x-show="$store.dataStore.openDoing"
-          x-transition.opacity.duration.300ms
-          x-cloak
-        >
-          <div
-            class="modal-content"
-            x-data="{
-            nameTask : '',
-            desckTask : '',
-          }"
-          >
-            <input type="text" x-model="nameTask" />
-            <input type="text" x-model="desckTask" />
-            <button
-              @click="$store.dataStore.Doing.push([nameTask, desckTask, false]); $store.dataStore.openDoing = !$store.dataStore.openDoing"
-            >
-              Add
-            </button>
-            <button
-              @click="$store.dataStore.openDoing = !$store.dataStore.openDoing"
-            >
-              Close DOING
-            </button>
-          </div>
-        </div>
-      </div>
-      <div x-data>
-        <button
-          @click="$store.dataStore.openDoing = !$store.dataStore.openDoing"
-        >
-          Ouvrir le modal
-        </button>
-      </div>
     </div>
 
-    <!--CODE FOR DONE-->
+    <!-- ===================== DONE ===================== -->
     <div x-data class="list">
       <span>Liste DONE :</span>
 
       <ul>
         <template x-for="(v, i) in $store.dataStore.Done" :key="i">
-          <li x-text="v"></li>
+          <li @dblclick="$store.dataStore.openEditModal('Done', i, v)">
+            <div>
+              <span>Nom : <span x-text="v[0]"></span></span>
+            </div>
+            <div>
+              <span>Description : <span x-text="v[1]"></span></span>
+            </div>
+            <div>
+              <span>
+                Complété :
+                <input type="checkbox" :checked="v[2]" @change="$store.dataStore.handleCheckbox('Done', i)" />
+              </span>
+            </div>
+          </li>
         </template>
       </ul>
+    </div>
 
-      <!--MODAL FOR ADD TASK IN DONE-->
-      <div>
-        <div
-          class="modal-backdrop"
-          role="dialog"
-          x-data
-          x-show="$store.dataStore.openDone"
-          x-transition.opacity.duration.300ms
-          x-cloak
-        >
-          <div
-            class="modal-content"
-            x-data="{
-            nameTask : '',
-            desckTask : '',
-          }"
-          >
-            <input type="text" x-model="nameTask" />
-            <input type="text" x-model="desckTask" />
-            <button
-              @click="$store.dataStore.Done.push([nameTask, desckTask, false]); $store.dataStore.openDone = !$store.dataStore.openDone"
-            >
-              Add
-            </button>
-            <button
-              @click="$store.dataStore.openDone = !$store.dataStore.openDone"
-            >
-              Close DONE
-            </button>
-          </div>
+    <!-- ===================== MODAL ÉDITION ===================== -->
+    <div class="modal-backdrop" role="dialog" x-data x-show="$store.dataStore.openEdit"
+      x-transition.opacity.duration.300ms x-cloak>
+      <div class="modal-content" x-data="{
+      name: '',
+      desc: '',
+      list: '',
+      initEdit() {
+        const d = $store.dataStore.editTaskData;
+        this.name = d.name;
+        this.desc = d.desc;
+        this.list = d.list;
+      }
+    }" x-init="$watch('$store.dataStore.openEdit', value => { if (value) initEdit() })">
+        <h3>Modifier la tâche</h3>
+
+        <label>
+          Nom :
+          <input type="text" x-model="name" placeholder="Nom de la tâche" />
+        </label>
+
+        <label>
+          Description :
+          <textarea x-model="desc" placeholder="Description" rows="3"></textarea>
+        </label>
+
+        <label>
+          Déplacer vers :
+          <select x-model="list">
+            <option value="Todo">Todo</option>
+            <option value="Doing">Doing</option>
+            <option value="Done">Done</option>
+          </select>
+        </label>
+
+        <div>
+          <button @click="
+          if (name.trim() !== '') {
+            $store.dataStore.updateTask(name, desc, list);
+          } else {
+            alert('Le nom de la tâche ne peut pas être vide.');
+          }
+        ">
+            Mettre à jour
+          </button>
+
+          <button @click="$store.dataStore.openEdit = false">Annuler</button>
         </div>
-      </div>
-      <div x-data>
-        <button @click="$store.dataStore.openDone = !$store.dataStore.openDone">
-          Ouvrir le modal
-        </button>
       </div>
     </div>
 
+
     <script src="./app.js"></script>
-  </body>
+</body>
+
 </html>
