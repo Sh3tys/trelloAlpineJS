@@ -92,6 +92,11 @@
                       :checked="v[2]"
                       @change="$store.dataStore.handleCheckbox('Doing', i)"
                     />
+                    <button
+                      @click="$store.dataStore.openEditModal('Doing', i, v)"
+                    >
+                      Modifier
+                    </button>
                   </span>
                 </div>
               </li>
