@@ -1,41 +1,200 @@
 <!DOCTYPE html>
 <html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trellium</title>
+    <!-- Alpine Persist -->
+    <script src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
+    <!-- Alpine Core -->
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+    <link rel="stylesheet" href="./app.css" />
+    <link rel="icon" type="image/png" href="./picture/Logo_Trellium.png" />
+  </head>
+  <body>
+    <header>
+      <div x-data>
+        <button>ⓘ</button>
+        <span> Trellium</span>
+        <span
+          x-text="`Nombre de taches actuelles : ${$store.dataStore.Todo.length + $store.dataStore.Doing.length + $store.dataStore.Done.length} tache${($store.dataStore.Todo.length + $store.dataStore.Doing.length + $store.dataStore.Done.length) > 1 ? 's' : ''}`"
+        ></span>
+        <button @click="$store.dataStore.openTodo = true">
+          Ajouter une tache
+        </button>
+      </div>
+    </header>
+    <main>
+      <!-- ===================== CONTENEUR PRINCIPAL ===================== -->
+      <div x-data>
+        <!-- ===================== TODO ===================== -->
+        <div class="list">
+          <span
+            >A faire (<span x-text="$store.dataStore.Todo.length"></span>
+            tache<span
+              x-text="($store.dataStore.Todo.length > 1) ? 's' : '' "
+            ></span
+            >)</span
+          >
+          <ul>
+            <template x-for="(v, i) in $store.dataStore.Todo" :key="i">
+              <li @dblclick="$store.dataStore.openEditModal('Todo', i, v)">
+                <div>
+                  <span><span x-text="v[0]"></span></span>
+                </div>
+                <div>
+                  <span><span x-text="v[1]"></span></span>
+                </div>
+                <div>
+                  <span>
+                    prendre :
+                    <input
+                      type="checkbox"
+                      :checked="v[2]"
+                      @change="$store.dataStore.handleCheckbox('Todo', i)"
+                    />
+                  </span>
+                  <button @click="$store.dataStore.openEditModal('Todo', i, v)">
+                    Modifier
+                  </button>
+                </div>
+              </li>
+            </template>
+          </ul>
+        </div>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Trello AlpineJS</title>
+        <!-- ===================== DOING ===================== -->
+        <div class="list">
+          <span
+            >En cours (<span x-text="$store.dataStore.Doing.length"></span>
+            tache<span
+              x-text="($store.dataStore.Doing.length > 1)?  's' : '' "
+            ></span
+            >)</span
+          >
+          <ul>
+            <template x-for="(v, i) in $store.dataStore.Doing" :key="i">
+              <li @dblclick="$store.dataStore.openEditModal('Doing', i, v)">
+                <div>
+                  <span><span x-text="v[0]"></span></span>
+                </div>
+                <div>
+                  <span><span x-text="v[1]"></span></span>
+                </div>
+                <div>
+                  <span>
+                    Compléter :
+                    <input
+                      type="checkbox"
+                      :checked="v[2]"
+                      @change="$store.dataStore.handleCheckbox('Doing', i)"
+                    />
+                  </span>
+                </div>
+              </li>
+            </template>
+          </ul>
+        </div>
 
-  <!-- Alpine Persist -->
-  <script src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
+        <!-- ===================== DONE ===================== -->
+        <div class="list">
+          <span
+            >Fait (<span x-text="$store.dataStore.Done.length"></span>
+            tache<span
+              x-text="($store.dataStore.Done.length > 1)?  's' : '' "
+            ></span
+            >)</span
+          >
+          <ul>
+            <template x-for="(v, i) in $store.dataStore.Done" :key="i">
+              <li @dblclick="$store.dataStore.openEditModal('Done', i, v)">
+                <div>
+                  <span><span x-text="v[0]"></span></span>
+                </div>
+                <div>
+                  <span><span x-text="v[1]"></span></span>
+                </div>
+                <div>
+                  <span
+                    >Supprimer:
+                    <input
+                      type="checkbox"
+                      :checked="v[2]"
+                      @change="$store.dataStore.handleCheckbox('Done', i)"
+                    />
+                  </span>
+                </div>
+              </li>
+            </template>
+          </ul>
+        </div>
 
-  <!-- Alpine Core -->
-  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+        <!-- ===================== RESEARCH TASK (à la fin) ===================== -->
+        <div>
+          <input
+            type="text"
+            placeholder="Rechercher une tache"
+            x-model="$store.dataStore.search"
+          />
+          <ul x-show="$store.dataStore.search.trim()">
+            <template
+              x-for="(task, i) in $store.dataStore.Todo.map(task => ({ nametask : task[0], desc: task[1], done: task[2], list: 'A faire' }))
+        .concat($store.dataStore.Doing.map(task => ({ nametask : task[0], desc: task[1], done: task[2], list: 'En cours' })))
+        .concat($store.dataStore.Done.map(task => ({ nametask : task[0], desc: task[1], done: task[2], list: 'Fait' })))
+        .filter(task => task.nametask.includes($store.dataStore.search) || task.desc.includes($store.dataStore.search))
+      "
+              :key="i"
+            >
+              <li>
+                <div><span x-text="`Titre : ${task.nametask}`"></span></div>
+                <div><span x-text="`Description : ${task.desc}`"></span></div>
+                <div><span x-text="`Liste : ${task.list}`"></span></div>
+              </li>
+            </template>
+          </ul>
+        </div>
+      </div>
 
-  <link rel="stylesheet" href="./app.css" />
-</head>
-
-<body>
-  <button>ⓘ</button>
-  <!-- ===================== ADD AND TOTAL TASKS ===================== -->
-   <div x-data>
-    <!-- MODAL TODO -->
-    <div>
-      <div class="modal-backdrop" role="dialog" x-data x-show="$store.dataStore.openTodo"
-        x-transition.opacity.duration.300ms x-cloak>
-        <div class="modal-content" x-data="{
+      <!-- ===================== ADD AND TOTAL TASKS ===================== -->
+      <div x-data>
+        <!-- MODAL TODO -->
+        <div>
+          <div
+            class="modal-backdrop"
+            role="dialog"
+            x-data
+            x-show="$store.dataStore.openTodo"
+            x-transition.opacity.duration.300ms
+            x-cloak
+          >
+            <div
+              class="modal-content"
+              x-data="{
         nameTask: '',
         desckTask: '',
         videInput() {
           this.nameTask = '';
           this.desckTask = '';
         }
-      }" x-init="$watch('$store.dataStore.openTodo', value => { if (value) videInput() })">
-       <h3>Ajouter la tâche</h3>
-          <input type="text" placeholder='Nom de la tâche' x-model='nameTask' />
-          <textarea placeholder='Description' x-model='desckTask' rows='3'></textarea>
-
-          <button @click="
+      }"
+              x-init="$watch('$store.dataStore.openTodo', value => { if (value) videInput() })"
+            >
+              <h3>Ajouter la tâche</h3>
+              <input
+                type="text"
+                placeholder="Nom de la tâche"
+                x-model="nameTask"
+              />
+              <textarea
+                placeholder="Description"
+                x-model="desckTask"
+                rows="3"
+              ></textarea>
+              <button
+                @click="
           if (nameTask.trim() !== '') {
             $store.dataStore.Todo.push([nameTask, desckTask, false]);
             $store.dataStore.openTodo = false;
@@ -43,117 +202,30 @@
           } else {
             alert('Veuillez entrer un nom de tâche.');
           }
-        ">
-            Ajouter
-          </button>
-
-          <button @click="$store.dataStore.openTodo = false; videInput()">Fermer</button>
+        "
+              >
+                Ajouter
+              </button>
+              <button @click="$store.dataStore.openTodo = false; videInput()">
+                Fermer
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
-    <span>Vous avez <span x-text="$store.dataStore.Todo.length + $store.dataStore.Doing.length + $store.dataStore.Done.length"></span> tache<span x-text="(($store.dataStore.Todo.length + $store.dataStore.Doing.length + $store.dataStore.Done.length) > 1) ? 's' : '' "></span> → </span>
-    <button @click="$store.dataStore.openTodo = true">Ajouter une tache</button>
-   </div>
-
-  <!-- ===================== RESEARCH TASK ===================== -->
-   <div x-data>
-      <input type="text" placeholder="rechercher une tache" x-model="$store.dataStore.search">
-
-    <ul x-show="$store.dataStore.search.trim()">
-  <template x-for="(task, i) in $store.dataStore.Todo.map(task => ({ nametask : task[0], desc: task[1], done: task[2], list: 'Todo' }))
-        .concat($store.dataStore.Doing.map(task => ({ nametask : task[0], desc: task[1], done: task[2], list: 'Doing' })))
-        .concat($store.dataStore.Done.map(task => ({ nametask : task[0], desc: task[1], done: task[2], list: 'Done' })))
-        .filter(task => task.nametask.includes($store.dataStore.search) || task.desc.includes($store.dataStore.search))
-      " :key="i">
-    <li>
-      <div>Nom : <span x-text="task.nametask"></span></div>
-      <div>Description : <span x-text="task.desc"></span></div>
-      <div>Liste actuelle : <span x-text="task.list"></span></div>
-    </li>
-  </template>
-</ul>
-   </div>
-
-
-
-  <!-- ===================== TODO ===================== -->
-  <div x-data class="list">
-    <span>Liste TODO (<span x-text="$store.dataStore.Todo.length"></span> tache<span x-text="($store.dataStore.Todo.length > 1) ? 's' : '' "></span>):</span>
-
-    <ul>
-      <template x-for="(v, i) in $store.dataStore.Todo" :key="i">
-        <li @dblclick="$store.dataStore.openEditModal('Todo', i, v)">
-          <div>
-            <span>Nom : <span x-text="v[0]"></span></span>
-          </div>
-          <div>
-            <span>Description : <span x-text="v[1]"></span></span>
-          </div>
-          <div>
-            <span>
-              Complété :
-              <input type="checkbox" :checked="v[2]" @change="$store.dataStore.handleCheckbox('Todo', i)" />
-            </span>
-          </div>
-        </li>
-      </template>
-    </ul>
-  </div>
-
-
-    <!-- ===================== DOING ===================== -->
-    <div x-data
-      class="list">
-      <span>Liste DOING (<span x-text="$store.dataStore.Doing.length"></span> tache<span x-text="($store.dataStore.Doing.length > 1)?  's' : '' "></span>) :</span>
-
-      <ul>
-        <template x-for="(v, i) in $store.dataStore.Doing" :key="i">
-          <li @dblclick="$store.dataStore.openEditModal('Doing', i, v)">
-            <div>
-              <span>Nom : <span x-text="v[0]"></span></span>
-            </div>
-            <div>
-              <span>Description : <span x-text="v[1]"></span></span>
-            </div>
-            <div>
-              <span>
-                Complété :
-                <input type="checkbox" :checked="v[2]" @change="$store.dataStore.handleCheckbox('Doing', i)" />
-              </span>
-            </div>
-          </li>
-        </template>
-      </ul>
-    </div>
-
-    <!-- ===================== DONE ===================== -->
-    <div x-data class="list">
-      <span>Liste DONE (<span x-text="$store.dataStore.Done.length"></span> tache<span x-text="($store.dataStore.Done.length > 1)?  's' : '' "></span>) :</span>
-
-      <ul>
-        <template x-for="(v, i) in $store.dataStore.Done" :key="i">
-          <li @dblclick="$store.dataStore.openEditModal('Done', i, v)">
-            <div>
-              <span>Nom : <span x-text="v[0]"></span></span>
-            </div>
-            <div>
-              <span>Description : <span x-text="v[1]"></span></span>
-            </div>
-            <div>
-              <span>
-                Complété :
-                <input type="checkbox" :checked="v[2]" @change="$store.dataStore.handleCheckbox('Done', i)" />
-              </span>
-            </div>
-          </li>
-        </template>
-      </ul>
-    </div>
-
-    <!-- ===================== MODAL ÉDITION ===================== -->
-    <div class="modal-backdrop" role="dialog" x-data x-show="$store.dataStore.openEdit"
-      x-transition.opacity.duration.300ms x-cloak>
-      <div class="modal-content" x-data="{
+      <!-- ===================== MODAL ÉDITION ===================== -->
+      <div
+        class="modal-backdrop"
+        role="dialog"
+        x-data
+        x-show="$store.dataStore.openEdit"
+        x-transition.opacity.duration.300ms
+        x-cloak
+      >
+        <div
+          class="modal-content"
+          x-data="{
       name: '',
       desc: '',
       list: '',
@@ -163,46 +235,48 @@
         this.desc = d.desc;
         this.list = d.list;
       }
-    }" x-init="$watch('$store.dataStore.openEdit', value => { if (value) initEdit() })">
-        <h3>Modifier la tâche</h3>
-
-        <label>
-          Nom :
-          <input type="text" x-model="name" placeholder="Nom de la tâche" />
-        </label>
-
-        <label>
-          Description :
-          <textarea x-model="desc" placeholder="Description" rows="3"></textarea>
-        </label>
-
-        <label>
-          Déplacer vers :
-          <select x-model="list">
-            <option value="Todo">Todo</option>
-            <option value="Doing">Doing</option>
-            <option value="Done">Done</option>
-          </select>
-        </label>
-
-        <div>
-          <button @click="
+    }"
+          x-init="$watch('$store.dataStore.openEdit', value => { if (value) initEdit() })"
+        >
+          <h3>Modifier la tâche</h3>
+          <label>
+            Nom :
+            <input type="text" x-model="name" placeholder="Nom de la tâche" />
+          </label>
+          <label>
+            Description :
+            <textarea
+              x-model="desc"
+              placeholder="Description"
+              rows="3"
+            ></textarea>
+          </label>
+          <label>
+            Déplacer vers :
+            <select x-model="list">
+              <option value="Todo">A faire</option>
+              <option value="Doing">En cours</option>
+              <option value="Done">Fait</option>
+            </select>
+          </label>
+          <div>
+            <button
+              @click="
           if (name.trim() !== '') {
             $store.dataStore.updateTask(name, desc, list);
           } else {
             alert('Le nom de la tâche ne peut pas être vide.');
           }
-        ">
-            Mettre à jour
-          </button>
-
-          <button @click="$store.dataStore.openEdit = false">Annuler</button>
+        "
+            >
+              Mettre à jour
+            </button>
+            <button @click="$store.dataStore.openEdit = false">Annuler</button>
+          </div>
         </div>
       </div>
-    </div>
+    </main>
 
-
-  <script src="./app.js"></script>
-</body>
-
+    <script src="./app.js"></script>
+  </body>
 </html>
