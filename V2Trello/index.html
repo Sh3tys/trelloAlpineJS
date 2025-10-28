@@ -31,8 +31,8 @@
       <!-- ===================== CONTENEUR PRINCIPAL ===================== -->
       <div x-data>
         <!-- ===================== TODO ===================== -->
-        <div class="list">
-          <span
+        <div x-show="$store.dataStore.todoList" class="list">
+          <span @dblclick="$store.dataStore.filtreList('todo')"
             >A faire (<span x-text="$store.dataStore.Todo.length"></span>
             tache<span
               x-text="($store.dataStore.Todo.length > 1) ? 's' : '' "
@@ -67,8 +67,8 @@
         </div>
 
         <!-- ===================== DOING ===================== -->
-        <div class="list">
-          <span
+        <div x-show="$store.dataStore.doingList" class="list">
+          <span @dblclick="$store.dataStore.filtreList('doing')"
             >En cours (<span x-text="$store.dataStore.Doing.length"></span>
             tache<span
               x-text="($store.dataStore.Doing.length > 1)?  's' : '' "
@@ -105,8 +105,8 @@
         </div>
 
         <!-- ===================== DONE ===================== -->
-        <div class="list">
-          <span
+        <div x-show="$store.dataStore.doneList" class="list">
+          <span @dblclick="$store.dataStore.filtreList('done')"
             >Fait (<span x-text="$store.dataStore.Done.length"></span>
             tache<span
               x-text="($store.dataStore.Done.length > 1)?  's' : '' "
@@ -130,6 +130,11 @@
                       :checked="v[2]"
                       @change="$store.dataStore.handleCheckbox('Done', i)"
                     />
+                    <button
+                      @click="$store.dataStore.openEditModal('Done', i, v)"
+                    >
+                      Modifier
+                    </button>
                   </span>
                 </div>
               </li>
