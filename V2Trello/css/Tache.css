@@ -1,0 +1,150 @@
+@import url('https://fonts.googleapis.com/css2?family=Lalezar');
+
+/* Li des tache */
+.list > ul li {
+  background: linear-gradient(135deg, #b8dce8, #a0cfd9);
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.list > ul li:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.35);
+}
+
+/* Conteneur des li */
+.list > ul li > div {
+  font-family: 'Lalezar', cursive;
+  color: #041421;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.list > ul li > div:last-child {
+  margin-top: 5px;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* Conteneur pour la valeur */
+.list > ul li > div > span {
+  display: flex;
+  align-items: flex-start;
+  gap: 5px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* div Titre tache*/
+.list > ul li > div:first-child {
+  background-color: rgba(4, 20, 33, 0.1);
+  padding: 8px 10px;
+  border-radius: 8px;
+  border-left: 3px solid #041421;
+}
+
+.list > ul li > div:first-child > span {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Div Description tache */
+.list > ul li > div:nth-child(2) {
+  background-color: rgba(255, 255, 255, 0.15);
+  padding: 8px 10px;
+  border-radius: 8px;
+  min-height: 40px;
+}
+
+.list > ul li > div:nth-child(2) > span {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 13px;
+}
+
+/* texte de base en gras de Description */
+.list > ul li > div:nth-child(2) > span::before {
+  content: 'Description :';
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* Conteneur btn modifier && checkbox */
+.list > ul li > div:nth-child(3) {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  padding: 5px 10px;
+  background-color: rgba(123, 201, 168, 0.2);
+  border-radius: 8px;
+}
+
+/* Btn modifier */
+.list > ul li > div:nth-child(3) > button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-content: self-start;
+  background-color: #7bc9a8;
+  color: #041421;
+  font-family: 'Lalezar', cursive;
+  font-size: 12px;
+  padding: 1px 5px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.list > ul li > div:nth-child(3) > button:hover {
+  background-color: #5fb590;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Checkbox */
+.list > ul li > div > span > input[type='checkbox'] {
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  background-color: #7bc9a8;
+  border-radius: 30%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border: none;
+  appearance: none;
+  margin-left: 8px;
+}
+
+.list > ul li > div > span > input[type='checkbox']:hover {
+  background-color: #5fb590;
+  transform: scale(1.1);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.list > ul li > div > span > input[type='checkbox']:checked {
+  background-color: #3d9970;
+  position: relative;
+}
+
+.list > ul li > div > span > input[type='checkbox']:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+}

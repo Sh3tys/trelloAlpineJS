@@ -1,0 +1,65 @@
+@media screen and (max-width: 850px) {
+  header > div {
+    padding: 15px 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  header > div > button:first-child {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+
+  header > div > span:nth-child(2) {
+    font-size: 36px;
+    width: 100%;
+    text-align: center;
+  }
+
+  header > div > span:nth-child(3) {
+    font-size: 16px;
+    text-align: center;
+    width: 100%;
+  }
+
+  header > div > button:last-child {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  main > div:first-child {
+    flex-direction: column;
+    padding: 15px;
+    overflow-y: auto;
+  }
+
+  main > div:first-child > div:last-child {
+    max-width: 100%;
+    max-height: 300px;
+    order: 4;
+  }
+
+  .list {
+    max-height: 400px;
+  }
+
+  footer {
+    flex-direction: column;
+    padding: 15px 20px;
+    gap: 10px;
+    text-align: center;
+  }
+
+  footer > span {
+    font-size: 13px;
+  }
+
+  footer > span:first-child {
+    font-size: 15px;
+  }
+}

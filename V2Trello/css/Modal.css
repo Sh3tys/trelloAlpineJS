@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Lalezar');
+
+/* BackGround du modal */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(4, 20, 33, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+  backdrop-filter: blur(3px);
+}
+
+/* Contenu du modal */
+.modal-content {
+  background: linear-gradient(145deg, #064854, #053944);
+  border-radius: 20px;
+  padding: 30px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Titre du modal */
+.modal-content > h3 {
+  font-family: 'Lalezar', cursive;
+  font-size: 26px;
+  color: #a8d8e6;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* Label dans le modal */
+.modal-content > label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: 'Lalezar', cursive;
+  font-size: 16px;
+  color: #e8f4f8;
+}
+
+/* Input et textarea du modal */
+.modal-content > input[type='text'],
+.modal-content > textarea,
+.modal-content > label > input[type='text'],
+.modal-content > label > textarea,
+.modal-content > label > select {
+  background-color: #e8f4f8;
+  color: #041421;
+  font-family: 'Lalezar', cursive;
+  font-size: 15px;
+  padding: 12px 15px;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  resize: vertical;
+}
+
+.modal-content > input[type='text']::placeholder,
+.modal-content > textarea::placeholder,
+.modal-content > label > input[type='text']::placeholder,
+.modal-content > label > textarea::placeholder {
+  color: #042630;
+  opacity: 0.7;
+}
+
+/* Select du modal */
+.modal-content > label > select {
+  cursor: pointer;
+}
+
+/* Premier Btn du modal (Accepter) */
+.modal-content > button,
+.modal-content > div > button {
+  background-color: #7bc9a8;
+  color: #041421;
+  font-family: 'Lalezar', cursive;
+  font-size: 16px;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content > button:hover,
+.modal-content > div > button:hover {
+  background-color: #5fb590;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Deuxieme Btn (fermer) */
+.modal-content > button:last-of-type,
+.modal-content > div > button:last-of-type {
+  background-color: #e8a5a5;
+}
+
+.modal-content > button:last-of-type:hover,
+.modal-content > div > button:last-of-type:hover {
+  background-color: #d88888;
+}
+
+/* Conteneur des btn du modal edit*/
+.modal-content > div:last-child {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
