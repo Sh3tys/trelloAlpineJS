@@ -1,0 +1,146 @@
+@import url('https://fonts.googleapis.com/css2?family=Lalezar');
+
+/* Modal tutoriel avec scroll */
+.modal-backdrop .modal-content:has(h4) {
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 25px 30px;
+}
+
+/* Scrollbar du modal tutoriel */
+.modal-backdrop .modal-content:has(h4)::-webkit-scrollbar {
+  width: 10px;
+}
+
+.modal-backdrop .modal-content:has(h4)::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  margin: 10px 0;
+}
+
+.modal-backdrop .modal-content:has(h4)::-webkit-scrollbar-thumb {
+  background: rgba(168, 216, 230, 0.6);
+  border-radius: 10px;
+}
+
+.modal-backdrop .modal-content:has(h4)::-webkit-scrollbar-thumb:hover {
+  background: rgba(168, 216, 230, 0.8);
+}
+
+/* Conteneur du titre avec images */
+.modal-content > .title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(168, 216, 230, 0.3);
+}
+
+/* Images du logo dans le titre */
+.modal-content > .title-container > img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+/* Titre principal du tutoriel (h3) */
+.modal-content > .title-container > h3 {
+  font-family: 'Lalezar', cursive;
+  font-size: 28px;
+  color: #7bc9a8;
+  text-align: center;
+  margin: 0;
+  flex: 1;
+}
+
+/* Sous-titres du tutoriel (h4) */
+.modal-content > h4 {
+  font-family: 'Lalezar', cursive;
+  font-size: 20px;
+  color: #7bc9a8;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  padding-left: 10px;
+  border-left: 4px solid #7bc9a8;
+}
+
+/* Premier h4 sans marge top */
+.modal-content > h4:first-of-type {
+  margin-top: 10px;
+}
+
+/* Paragraphes du tutoriel */
+.modal-content > p {
+  font-family: 'Lalezar', cursive;
+  font-size: 15px;
+  color: #e8f4f8;
+  line-height: 1.6;
+  margin-bottom: 12px;
+  text-align: justify;
+}
+
+/* Liste à puces dans le modal */
+.modal-content > ul {
+  font-family: 'Lalezar', cursive;
+  font-size: 14px;
+  color: #e8f4f8;
+  line-height: 1.7;
+  margin-left: 25px;
+  margin-bottom: 15px;
+  padding-left: 10px;
+}
+
+.modal-content > ul > li {
+  margin-bottom: 8px;
+  position: relative;
+  padding-left: 5px;
+}
+
+.modal-content > ul > li::marker {
+  color: #7bc9a8;
+  font-size: 1.2em;
+}
+
+/* Texte en gras dans les listes */
+.modal-content > ul > li > strong {
+  color: #a8d8e6;
+  font-weight: 600;
+}
+
+/* Espacement du dernier paragraphe avant le bouton */
+.modal-content > p:last-of-type {
+  margin-bottom: 20px;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 2px solid rgba(168, 216, 230, 0.3);
+  text-align: center;
+  font-size: 14px;
+  color: #b8dce8;
+}
+
+/* Bouton unique du modal tutoriel */
+.modal-content > button:only-of-type {
+  background-color: #7bc9a8;
+  color: #041421;
+  font-family: 'Lalezar', cursive;
+  font-size: 17px;
+  padding: 14px 30px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+  margin-top: 10px;
+  width: 100%;
+  max-width: 350px;
+  align-self: center;
+}
+
+.modal-content > button:only-of-type:hover {
+  background-color: #5fb590;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.4);
+}

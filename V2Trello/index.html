@@ -17,11 +17,12 @@
   <body>
     <header>
       <div x-data>
-        <button>ⓘ</button>
+        <button @click="$store.dataStore.infoModal()">ⓘ</button>
         <span> Trellium</span>
         <span
-          x-text="`Nombre de taches actuelles : ${$store.dataStore.Todo.length + $store.dataStore.Doing.length + $store.dataStore.Done.length} tache${($store.dataStore.Todo.length + $store.dataStore.Doing.length + $store.dataStore.Done.length) > 1 ? 's' : ''}`"
+          x-text="`Taches totales : ${$store.dataStore.Todo.length + $store.dataStore.Doing.length + $store.dataStore.Done.length} tache${($store.dataStore.Todo.length + $store.dataStore.Doing.length + $store.dataStore.Done.length) > 1 ? 's' : ''}`"
         ></span>
+
         <button @click="$store.dataStore.openTodo = true">
           Ajouter une tache
         </button>
@@ -50,7 +51,7 @@
                 </div>
                 <div>
                   <span>
-                    prendre :
+                    commencer :
                     <input
                       type="checkbox"
                       :checked="v[2]"
@@ -92,12 +93,12 @@
                       :checked="v[2]"
                       @change="$store.dataStore.handleCheckbox('Doing', i)"
                     />
-                    <button
-                      @click="$store.dataStore.openEditModal('Doing', i, v)"
-                    >
-                      Modifier
-                    </button>
                   </span>
+                  <button
+                    @click="$store.dataStore.openEditModal('Doing', i, v)"
+                  >
+                    Modifier
+                  </button>
                 </div>
               </li>
             </template>
@@ -128,14 +129,12 @@
                     <input
                       type="checkbox"
                       :checked="v[2]"
-                      @change="$store.dataStore.handleCheckbox('Done', i)"
+                      @click.prevent="$store.dataStore.handleCheckbox('Done', i)"
                     />
-                    <button
-                      @click="$store.dataStore.openEditModal('Done', i, v)"
-                    >
-                      Modifier
-                    </button>
                   </span>
+                  <button @click="$store.dataStore.openEditModal('Done', i, v)">
+                    Modifier
+                  </button>
                 </div>
               </li>
             </template>
@@ -146,7 +145,7 @@
         <div>
           <input
             type="text"
-            placeholder="Rechercher une tache"
+            placeholder="Rechercher une tache..."
             x-model="$store.dataStore.search"
           />
           <ul x-show="$store.dataStore.search.trim()">
@@ -192,10 +191,10 @@
       }"
               x-init="$watch('$store.dataStore.openTodo', value => { if (value) videInput() })"
             >
-              <h3>Ajouter la tâche</h3>
+              <h3>Ajouter une tache</h3>
               <input
                 type="text"
-                placeholder="Nom de la tâche"
+                placeholder="Nom de la tache"
                 x-model="nameTask"
               />
               <textarea
@@ -210,7 +209,7 @@
             $store.dataStore.openTodo = false;
             videInput();
           } else {
-            alert('Veuillez entrer un nom de tâche.');
+            alert('Veuillez saisir le nom de la tache.');
           }
         "
               >
@@ -248,10 +247,10 @@
     }"
           x-init="$watch('$store.dataStore.openEdit', value => { if (value) initEdit() })"
         >
-          <h3>Modifier la tâche</h3>
+          <h3>Modifier la tache</h3>
           <label>
             Nom :
-            <input type="text" x-model="name" placeholder="Nom de la tâche" />
+            <input type="text" x-model="name" placeholder="Nom de la tache" />
           </label>
           <label>
             Description :
@@ -275,13 +274,118 @@
           if (name.trim() !== '') {
             $store.dataStore.updateTask(name, desc, list);
           } else {
-            alert('Le nom de la tâche ne peut pas être vide.');
+            alert('Le nom de la tache ne peut pas être vide.');
           }
         "
             >
               Mettre à jour
             </button>
             <button @click="$store.dataStore.openEdit = false">Annuler</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================== Tutos Modal ===================== -->
+      <div x-data>
+        <!-- MODAL TUTO & CONDITIONS D'UTILISATION -->
+        <div
+          class="modal-backdrop"
+          role="dialog"
+          x-show="$store.dataStore.infosBtn"
+          x-transition.opacity.duration.300ms
+          x-cloak
+        >
+          <div class="modal-content" x-data>
+            <div class="title-container">
+              <img src="./picture/Logo_Trellium.png" alt="Logo de Trellium" />
+              <h3>Bienvenue sur Trellium</h3>
+              <img src="./picture/Logo_Trellium.png" alt="Logo de Trellium" />
+            </div>
+
+            <p>Votre assistant de gestion de taches intuitif et rapide.</p>
+
+            <!-- SECTION 1 - PRISE EN MAIN -->
+            <h4>1. Prise en main</h4>
+            <p>
+              Trellium vous permet d’organiser vos taches de manière fluide
+              grace à trois colonnes principales :
+            </p>
+            <ul>
+              <li>
+                <strong>A faire</strong> : vos nouvelles taches apparaissent ici
+                après leur création.
+              </li>
+              <li>
+                <strong>En cours</strong> : pour indiquer qu’une tache est en
+                train d’être réalisée, cochez simplement la case verte.
+              </li>
+              <li>
+                <strong>Fait</strong> : une fois terminée, la tache passe ici et
+                peut être supprimée si vous le souhaitez (confirmation
+                demandée).
+              </li>
+            </ul>
+
+            <!-- SECTION 2 - MODIFICATION DES TACHES -->
+            <h4>2. Modification des taches</h4>
+            <p>
+              Si vous avez fait une erreur dans le titre, la description ou
+              l’emplacement d’une tache, cliquez sur le bouton "Modifier" à côté
+              de celle-ci, ou double-cliquez directement sur la tache pour
+              ouvrir la fenêtre d’édition.
+            </p>
+
+            <!-- SECTION 3 - RECHERCHE ET NAVIGATION -->
+            <h4>3. Recherche et navigation</h4>
+            <p>
+              Utilisez la barre de recherche pour retrouver une tache à partir
+              de quelques lettres de son titre ou de sa description. Trellium
+              vous indiquera dans quelle section elle se trouve (A faire, En
+              cours ou Fait). Vous pouvez également double-cliquer sur le titre
+              d’une section pour afficher uniquement cette partie.
+            </p>
+
+            <!-- SECTION 4 - STATISTIQUES ET INTERFACE -->
+            <h4>4. Statistiques et interface</h4>
+            <p>
+              En haut de l’écran, vous pouvez consulter le nombre total de
+              taches ainsi que le décompte spécifique de chaque catégorie. Ces
+              informations se mettent à jour automatiquement à chaque ajout,
+              suppression ou modification.
+            </p>
+
+            <!-- SECTION 5 - CONDITIONS D’UTILISATION -->
+            <h4>5. Conditions d’utilisation</h4>
+            <ul>
+              <li>
+                L’utilisation de Trellium implique l’acceptation de ces règles.
+              </li>
+              <li>
+                Trellium est destiné à un usage personnel et non commercial.
+              </li>
+              <li>
+                Aucune donnée personnelle n’est collectée ou partagée sans
+                consentement.
+              </li>
+              <li>
+                L’utilisateur est responsable du contenu des taches qu’il crée.
+              </li>
+              <li>
+                L’équipe Trellium se réserve le droit de modifier ces conditions
+                à tout moment.
+              </li>
+            </ul>
+
+            <!-- SECTION 6 - REMERCIEMENTS -->
+            <p>
+              Merci d’utiliser Trellium — Développé par Armando DAPA & Titouan
+              Conquéré de Monrbison. © 2025 Trellium - Tous droits réservés.
+            </p>
+
+            <!-- BOUTON DE CONFIRMATION -->
+            <button @click="$store.dataStore.infoModal()">
+              J’ai compris et j’accepte
+            </button>
           </div>
         </div>
       </div>
