@@ -6,6 +6,7 @@
 @import './css/TodoDoingDone.css'; /* Style des listes Todo Doing et Done */
 @import './css/Tache.css'; /* Style des taches et composant tache */
 @import './css/Modal.css'; /* Style des modal */
+@import './css/ModalTuto.css'; /* style du modal tutos*/
 @import './css/CloakJS.css'; /* Fonction pour cacher les modals*/
 
 /*Responsive*/
