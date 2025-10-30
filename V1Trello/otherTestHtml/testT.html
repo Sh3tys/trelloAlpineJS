@@ -1,107 +1,142 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Rank Ice Cream Flavors</title>
-
-    <!-- Bootstrap & Icons -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
-      rel="stylesheet"
-    />
-
-    <!-- Alpine.js -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Drag & Drop entre listes — insertion à la position</title>
     <script
       defer
       src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
     ></script>
   </head>
   <body>
-    <main class="container mt-5">
-      <div
-        x-data="{ 
-        items: [['1','2','3'], ['4','5','6'], ['7','8','9'], ['10','11','12']], 
-        items2: [['a','2','3'], ['b','5','6'], ['c','8','9'], ['d','11','12']],
-         
-        dragging: null, 
-        dropping: null 
-      }"
-        @drop.prevent="items = dragDropList(items, dragging, dropping)"
-        @dragover.prevent="$event.dataTransfer.dropEffect = 'move'"
-      >
+    <div x-data="dragList()">
+      <h3>Liste 1</h3>
+      <!-- container => on peut dropper ici (si on droppe sur le container hors item, on ajoute en fin) -->
+      <div @dragover.prevent @drop="dropItem('items')">
         <template x-for="(item, index) in items" :key="index">
           <div
-            class="position-relative list-group-item"
             draggable="true"
-            :class="{'border border-primary': dragging === index}"
-            @dragstart="dragging = index"
-            @dragend="dragging = null"
-          >
-            <div>
-              <span x-text="item[0]"></span>
-            </div>
-            <div
-              class="position-absolute"
-              style="top: 0; bottom: 0; right: 0; left: 0"
-              x-show.transition="dragging !== null"
-              :class="{'bg-secondary bg-opacity-25': dropping === index}"
-              @dragenter.prevent="if(index !== dragging) {dropping = index}"
-              @dragleave="if(dropping === index) dropping = null"
-            ></div>
-          </div>
-        </template>
-
-        <template x-for="(item, index) in items2" :key="index">
-          <div
-            class="position-relative list-group-item"
-            draggable="true"
-            :class="{'border border-primary': dragging === index}"
-            @dragstart="dragging = index"
-            @dragend="dragging = null"
-          >
-            <div>
-              <span x-text="item[0]"></span>
-            </div>
-            <div
-              class="position-absolute"
-              style="top: 0; bottom: 0; right: 0; left: 0"
-              x-show.transition="dragging !== null"
-              :class="{'bg-secondary bg-opacity-25': dropping === index}"
-              @dragenter.prevent="if(index !== dragging) {dropping = index}"
-              @dragleave="if(dropping === index) dropping = null"
-            ></div>
-          </div>
+            x-text="item[0]"
+            @dragstart="startDrag('items', index)"
+            @dragenter.prevent="enterDrop('items', index)"
+            @dragleave="leaveDrop('items', index)"
+            @dragend="endDrag()"
+          ></div>
         </template>
       </div>
 
       <hr />
-    </main>
+
+      <h3>Liste 2</h3>
+      <div @dragover.prevent @drop="dropItem('items2')">
+        <template x-for="(item, index) in items2" :key="index">
+          <div
+            draggable="true"
+            x-text="item[0]"
+            @dragstart="startDrag('items2', index)"
+            @dragenter.prevent="enterDrop('items2', index)"
+            @dragleave="leaveDrop('items2', index)"
+            @dragend="endDrag()"
+          ></div>
+        </template>
+      </div>
+    </div>
 
     <script>
-      function dragDropList(items, dragging, dropping) {
-        if (dragging !== null && dropping !== null) {
-          if (dragging < dropping) {
-            items = [
-              ...items.slice(0, dragging),
-              ...items.slice(dragging + 1, dropping + 1),
-              items[dragging],
-              ...items.slice(dropping + 1),
-            ];
-          } else {
-            items = [
-              ...items.slice(0, dropping),
-              items[dragging],
-              ...items.slice(dropping, dragging),
-              ...items.slice(dragging + 1),
-            ];
-          }
-        }
-        return items;
+      function dragList() {
+        return {
+          items: [
+            ['1', '2', '3'],
+            ['4', '5', '6'],
+            ['7', '8', '9'],
+          ],
+          items2: [
+            ['a', '2', '3'],
+            ['b', '5', '6'],
+            ['c', '8', '9'],
+          ],
+
+          // état du drag
+          draggingList: null, // 'items' ou 'items2'
+          draggingIndex: null, // index dans la liste source
+
+          // état du drop (où on aimerait insérer)
+          droppingList: null, // liste cible potentielle
+          droppingIndex: null, // index cible potentiel (insérer avant cet index)
+
+          startDrag(listName, index) {
+            this.draggingList = listName;
+            this.draggingIndex = index;
+            // reset possible anciennes valeurs de drop
+            this.droppingList = null;
+            this.droppingIndex = null;
+          },
+
+          // Quand le curseur entre au-dessus d'un élément -> on veut insérer avant cet index
+          enterDrop(listName, index) {
+            // si on entre sur la même cellule qu'on déplace, on peut ignorer
+            this.droppingList = listName;
+            this.droppingIndex = index;
+          },
+
+          leaveDrop(listName, index) {
+            // si on sort de cet élément et que c'était l'emplacement marqué, on retire
+            if (
+              this.droppingList === listName &&
+              this.droppingIndex === index
+            ) {
+              this.droppingList = null;
+              this.droppingIndex = null;
+            }
+          },
+
+          // drop sur le container (si on droppe hors d'un item)
+          dropItem(targetListName) {
+            // si rien en cours, on ignore
+            if (this.draggingList === null) return;
+
+            const source = this[this.draggingList];
+            const target = this[targetListName];
+
+            // retirer l'élément depuis la source
+            const [item] = source.splice(this.draggingIndex, 1);
+
+            // déterminer index d'insertion dans la cible
+            let insertIndex = null;
+            if (
+              this.droppingList === targetListName &&
+              this.droppingIndex !== null
+            ) {
+              insertIndex = this.droppingIndex;
+            }
+
+            // si pas d'insertIndex défini -> ajouter à la fin
+            if (insertIndex === null || insertIndex > target.length) {
+              target.push(item);
+            } else {
+              // cas particulier : si on déplace dans la même liste et qu'on a déjà retiré l'élément,
+              // l'index de destination doit être ajusté si l'élément était avant la destination.
+              if (this.draggingList === targetListName) {
+                // si l'élément était avant la position d'insertion, la suppression l'a décalée d'une place vers la gauche
+                if (this.draggingIndex < insertIndex)
+                  insertIndex = insertIndex - 1;
+                // si draggingIndex === insertIndex après ajustement => insertion au même endroit -> rien à faire
+              }
+              target.splice(insertIndex, 0, item);
+            }
+
+            // réinitialiser états
+            this.endDrag();
+          },
+
+          endDrag() {
+            this.draggingList = null;
+            this.draggingIndex = null;
+            this.droppingList = null;
+            this.droppingIndex = null;
+          },
+        };
       }
     </script>
   </body>
