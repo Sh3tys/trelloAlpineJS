@@ -1,10 +1,10 @@
-document.addEventListener("alpine:init", () => {
-  Alpine.store("dataStore", {
-    Todo: Alpine.$persist([]).as("Todo"),
-    Doing: Alpine.$persist([]).as("Doing"),
-    Done: Alpine.$persist([]).as("Done"),
+document.addEventListener('alpine:init', () => {
+  Alpine.store('dataStore', {
+    Todo: Alpine.$persist([]).as('Todo'),
+    Doing: Alpine.$persist([]).as('Doing'),
+    Done: Alpine.$persist([]).as('Done'),
 
-    infosBtn: Alpine.$persist("true").as("infoBtn"),
+    infosBtn: Alpine.$persist('true').as('infoBtn'),
 
     todoList: true,
     doingList: true,
@@ -20,25 +20,26 @@ document.addEventListener("alpine:init", () => {
     dropList: null,
     dropIndex: null,
 
-    editTaskData: { list: "", index: -1, name: "", desc: "" },
-    search: "",
+    editTaskData: { list: '', index: -1, name: '', desc: '' },
+    search: '',
 
+    /* ==================== TASK SYST ==================== */
     infoModal() {
       this.infosBtn = !this.infosBtn;
     },
 
     filtreList(i) {
-      if (i == "todo") {
+      if (i == 'todo') {
         this.doingList = !this.doingList;
         this.doneList = !this.doneList;
-      } else if (i == "doing") {
+      } else if (i == 'doing') {
         this.todoList = !this.todoList;
         this.doneList = !this.doneList;
-      } else if (i == "done") {
+      } else if (i == 'done') {
         this.todoList = !this.todoList;
         this.doingList = !this.doingList;
       } else {
-        alert("Il ya un problème dans la filter liste");
+        alert('Il ya un problème dans la filter liste');
       }
     },
 
@@ -78,16 +79,17 @@ document.addEventListener("alpine:init", () => {
         this[newList][this[newList].length - 1] = task;
       }
       this.openEdit = false;
-      this.editTaskData = { list: "", index: -1, name: "", desc: "" };
+      this.editTaskData = { list: '', index: -1, name: '', desc: '' };
     },
 
     handleCheckbox(listName, index) {
-      if (listName === "Todo") this.moveTask(this.Todo, this.Doing, index);
-      else if (listName === "Doing")
+      if (listName === 'Todo') this.moveTask(this.Todo, this.Doing, index);
+      else if (listName === 'Doing')
         this.moveTask(this.Doing, this.Done, index);
-      else if (listName === "Done") this.deleteTask(this.Done, index);
+      else if (listName === 'Done') this.deleteTask(this.Done, index);
     },
 
+    /* ==================== DRAG AND DROP SYST ==================== */
     startDrag(listName, index) {
       this.dragList = listName;
       this.dragIndex = index;
