@@ -20,86 +20,66 @@
       defer
       src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
     ></script>
-
-    <style>
-      .list-group-item {
-        cursor: grab;
-        user-select: none;
-      }
-      .list-group-item:active {
-        cursor: grabbing;
-      }
-    </style>
   </head>
   <body>
     <main class="container mt-5">
-      <h1 class="mb-4">Rank Ice Cream Flavors 🍦</h1>
       <div
         x-data="{ 
-        items: ['Chocolate', 'Vanilla', 'Strawberry', 'Cookies and Creme'], 
-        newItem:'', 
+        items: [['1','2','3'], ['4','5','6'], ['7','8','9'], ['10','11','12']], 
+        items2: [['a','2','3'], ['b','5','6'], ['c','8','9'], ['d','11','12']],
+         
         dragging: null, 
         dropping: null 
       }"
         @drop.prevent="items = dragDropList(items, dragging, dropping)"
         @dragover.prevent="$event.dataTransfer.dropEffect = 'move'"
       >
-        <div class="list-group mb-3">
-          <template x-for="(item, index) in items" :key="index">
-            <div
-              class="position-relative list-group-item"
-              draggable="true"
-              :class="{'border border-primary': dragging === index}"
-              @dragstart="dragging = index"
-              @dragend="dragging = null"
-            >
-              <div>
-                <i class="bi bi-grip-vertical me-2"></i>
-                <span x-text="item"></span>
-                <button
-                  type="button"
-                  class="btn btn-outline-danger btn-sm float-end"
-                  @click="items.splice(index, 1)"
-                >
-                  <i class="bi bi-trash"></i>
-                </button>
-              </div>
-              <div
-                class="position-absolute"
-                style="top: 0; bottom: 0; right: 0; left: 0"
-                x-show.transition="dragging !== null"
-                :class="{'bg-secondary bg-opacity-25': dropping === index}"
-                @dragenter.prevent="if(index !== dragging) {dropping = index}"
-                @dragleave="if(dropping === index) dropping = null"
-              ></div>
+        <template x-for="(item, index) in items" :key="index">
+          <div
+            class="position-relative list-group-item"
+            draggable="true"
+            :class="{'border border-primary': dragging === index}"
+            @dragstart="dragging = index"
+            @dragend="dragging = null"
+          >
+            <div>
+              <span x-text="item[0]"></span>
             </div>
-          </template>
-
-          <div class="input-group mt-3">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Add new flavor"
-              x-model="newItem"
-            />
-            <button
-              class="btn btn-primary"
-              :disabled="newItem == ''"
-              @click="items.push(newItem); newItem=''"
-            >
-              Add Flavor
-            </button>
+            <div
+              class="position-absolute"
+              style="top: 0; bottom: 0; right: 0; left: 0"
+              x-show.transition="dragging !== null"
+              :class="{'bg-secondary bg-opacity-25': dropping === index}"
+              @dragenter.prevent="if(index !== dragging) {dropping = index}"
+              @dragleave="if(dropping === index) dropping = null"
+            ></div>
           </div>
-        </div>
+        </template>
+
+        <template x-for="(item, index) in items2" :key="index">
+          <div
+            class="position-relative list-group-item"
+            draggable="true"
+            :class="{'border border-primary': dragging === index}"
+            @dragstart="dragging = index"
+            @dragend="dragging = null"
+          >
+            <div>
+              <span x-text="item[0]"></span>
+            </div>
+            <div
+              class="position-absolute"
+              style="top: 0; bottom: 0; right: 0; left: 0"
+              x-show.transition="dragging !== null"
+              :class="{'bg-secondary bg-opacity-25': dropping === index}"
+              @dragenter.prevent="if(index !== dragging) {dropping = index}"
+              @dragleave="if(dropping === index) dropping = null"
+            ></div>
+          </div>
+        </template>
       </div>
 
       <hr />
-      <p class="text-muted small">
-        Drag & Drop logic by
-        <a href="https://codepen.io/ranjan-purbey/pen/xoEMOM" target="_blank"
-          >Ranjan Purbey</a
-        >.
-      </p>
     </main>
 
     <script>
