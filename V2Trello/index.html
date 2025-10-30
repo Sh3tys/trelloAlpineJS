@@ -40,9 +40,16 @@
             ></span
             >)</span
           >
-          <ul>
+          <ul @dragover.prevent @drop="$store.dataStore.dropItem('Todo')">
             <template x-for="(v, i) in $store.dataStore.Todo" :key="i">
-              <li @dblclick="$store.dataStore.openEditModal('Todo', i, v)">
+              <li
+                @dblclick="$store.dataStore.openEditModal('Todo', i, v)"
+                draggable="true"
+                @dragstart="$store.dataStore.startDrag('Todo', i)"
+                @dragenter.prevent="$store.dataStore.enterDrop('Todo', i)"
+                @dragleave="$store.dataStore.leaveDrop('Todo', i)"
+                @dragend="$store.dataStore.endDrag()"
+              >
                 <div>
                   <span><span x-text="v[0]"></span></span>
                 </div>
@@ -76,9 +83,16 @@
             ></span
             >)</span
           >
-          <ul>
+          <ul @dragover.prevent @drop="$store.dataStore.dropItem('Doing')">
             <template x-for="(v, i) in $store.dataStore.Doing" :key="i">
-              <li @dblclick="$store.dataStore.openEditModal('Doing', i, v)">
+              <li
+                @dblclick="$store.dataStore.openEditModal('Doing', i, v)"
+                draggable="true"
+                @dragstart="$store.dataStore.startDrag('Doing', i)"
+                @dragenter.prevent="$store.dataStore.enterDrop('Doing', i)"
+                @dragleave="$store.dataStore.leaveDrop('Doing', i)"
+                @dragend="$store.dataStore.endDrag()"
+              >
                 <div>
                   <span><span x-text="v[0]"></span></span>
                 </div>
@@ -114,9 +128,16 @@
             ></span
             >)</span
           >
-          <ul>
+          <ul @dragover.prevent @drop="$store.dataStore.dropItem('Done')">
             <template x-for="(v, i) in $store.dataStore.Done" :key="i">
-              <li @dblclick="$store.dataStore.openEditModal('Done', i, v)">
+              <li
+                @dblclick="$store.dataStore.openEditModal('Done', i, v)"
+                draggable="true"
+                @dragstart="$store.dataStore.startDrag('Done', i)"
+                @dragenter.prevent="$store.dataStore.enterDrop('Done', i)"
+                @dragleave="$store.dataStore.leaveDrop('Done', i)"
+                @dragend="$store.dataStore.endDrag()"
+              >
                 <div>
                   <span><span x-text="v[0]"></span></span>
                 </div>
