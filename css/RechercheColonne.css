@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Lalezar');
+
+/* Conteneur de recherche */
+main > div:first-child > div:last-child {
+  background: linear-gradient(145deg, #064854, #053944);
+  border-radius: 20px;
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  min-width: 280px;
+  max-width: 350px;
+  order: 4;
+}
+
+/* input pour search */
+main > div:first-child > div:last-child > input[type='text'] {
+  width: 100%;
+  background-color: #7bc9a8;
+  color: #041421;
+  font-family: 'Lalezar', cursive;
+  font-size: 16px;
+  padding: 12px 15px;
+  border: none;
+  border-radius: 12px;
+  outline: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  margin-bottom: 15px;
+}
+
+main > div:first-child > div:last-child > input[type='text']::placeholder {
+  color: #042630;
+  opacity: 0.8;
+}
+
+/* Liste des résultats */
+main > div:first-child > div:last-child > ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 5px;
+  flex: 1;
+}
+
+/* L'item de recherche */
+main > div:first-child > div:last-child > ul li {
+  background: linear-gradient(135deg, #b8dce8, #a0cfd9);
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+main > div:first-child > div:last-child > ul li:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.35);
+}
+
+main > div:first-child > div:last-child > ul li > div {
+  font-family: 'Lalezar', cursive;
+  color: #041421;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+main > div:first-child > div:last-child > ul li > div:last-child {
+  margin-bottom: 0;
+}
+
+main > div:first-child > div:last-child > ul li > div:first-child {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+main > div:first-child > div:last-child > ul li > div span {
+  font-weight: normal;
+}

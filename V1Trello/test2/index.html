@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+  </head>
+  <body>
+    <div id="test"></div>
+    <div x-data>
+      <button @click="$store.affichage2.afficher = !$store.affichage2.afficher">
+        Affiche Text
+      </button>
+      <div x-data x-show="$store.affichage2.afficher">
+        <p>Texte...</p>
+      </div>
+    </div>
+
+    <script src="./script.js"></script>
+    <script src="./test.js"></script>
+  </body>
+</html>

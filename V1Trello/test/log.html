@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Login</title>
+    <script defer type="module" src="./script.js"></script>
+
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"
+    ></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+  </head>
+  <body>
+    <div x-data="testApp">
+      <input type="text" x-model="testname" placeholder="Name pls" />
+      <button @click="login()">Login</button>
+    </div>
+    <script></script>
+  </body>
+</html>

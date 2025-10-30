@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rank Ice Cream Flavors</title>
+
+    <!-- Bootstrap & Icons -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+
+    <!-- Alpine.js -->
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+  </head>
+  <body>
+    <main class="container mt-5">
+      <div
+        x-data="{
+        items: [['1','2','3'], ['4','5','6'], ['7','8','9'], ['10','11','12']],
+        items2: [['a','2','3'], ['b','5','6'], ['c','8','9'], ['d','11','12']],
+
+        dragging: null,
+        dropping: null
+      }"
+        @drop.prevent="items = dragDropList(items, dragging, dropping)"
+        @dragover.prevent="$event.dataTransfer.dropEffect = 'move'"
+      >
+        <template x-for="(item, index) in items" :key="index">
+          <div
+            class="position-relative list-group-item"
+            draggable="true"
+            :class="{'border border-primary': dragging === index}"
+            @dragstart="dragging = index"
+            @dragend="dragging = null"
+          >
+            <div>
+              <span x-text="item[0]"></span>
+            </div>
+            <div
+              class="position-absolute"
+              style="top: 0; bottom: 0; right: 0; left: 0"
+              x-show.transition="dragging !== null"
+              :class="{'bg-secondary bg-opacity-25': dropping === index}"
+              @dragenter.prevent="if(index !== dragging) {dropping = index}"
+              @dragleave="if(dropping === index) dropping = null"
+            ></div>
+          </div>
+        </template>
+      </div>
+
+      <hr />
+    </main>
+
+    <script>
+      function dragDropList(items, dragging, dropping) {
+        if (dragging !== null && dropping !== null) {
+          if (dragging < dropping) {
+            items = [
+              ...items.slice(0, dragging),
+              ...items.slice(dragging + 1, dropping + 1),
+              items[dragging],
+              ...items.slice(dropping + 1),
+            ];
+          } else {
+            items = [
+              ...items.slice(0, dropping),
+              items[dragging],
+              ...items.slice(dropping, dragging),
+              ...items.slice(dragging + 1),
+            ];
+          }
+        }
+        return items;
+      }
+    </script>
+  </body>
+</html>

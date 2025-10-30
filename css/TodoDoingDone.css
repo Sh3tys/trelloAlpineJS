@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Lalezar');
+
+/* Colonnes des liste (todo doing et done */
+.list {
+  background: linear-gradient(145deg, #064854, #053944);
+  border-radius: 20px;
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  min-width: 250px;
+  max-height: 100%;
+}
+
+/* -Ordre des colonnes- */
+
+/* A faire */
+.list:nth-of-type(1) {
+  order: 1;
+}
+
+/* En cours */
+.list:nth-of-type(2) {
+  order: 2;
+}
+
+/* Fait */
+.list:nth-of-type(3) {
+  order: 3;
+}
+
+/* Titre des colonne */
+.list > span {
+  font-family: 'Lalezar', cursive;
+  font-size: 22px;
+  color: #041421;
+  background-color: #a8d8e6;
+  padding: 15px 20px;
+  border-radius: 15px;
+  text-align: center;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.list > span:hover {
+  background-color: #b8dce8;
+  transform: scale(1.02);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+}
+
+/* Liste ul des tache dans la colonne */
+.list > ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 5px;
+  flex: 1;
+}
+
+/* La Scrollbar */
+.list > ul::-webkit-scrollbar,
+main > div:first-child > div:last-child > ul::-webkit-scrollbar {
+  width: 8px;
+}
+
+.list > ul::-webkit-scrollbar-track,
+main > div:first-child > div:last-child > ul::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+.list > ul::-webkit-scrollbar-thumb,
+main > div:first-child > div:last-child > ul::-webkit-scrollbar-thumb {
+  background: rgba(168, 216, 230, 0.5);
+  border-radius: 10px;
+}
+
+.list > ul::-webkit-scrollbar-thumb:hover,
+main > div:first-child > div:last-child > ul::-webkit-scrollbar-thumb:hover {
+  background: rgba(168, 216, 230, 0.7);
+}

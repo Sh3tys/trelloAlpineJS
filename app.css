@@ -1,0 +1,15 @@
+/*Page Ordi*/
+@import './css/pageDefault.css'; /*STYLES GLOBAUX*/
+@import './css/Header.css'; /* Style Header */
+@import './css/Main.css'; /* Style Main*/
+@import './css/RechercheColonne.css'; /* Style Recherche de la colonne */
+@import './css/TodoDoingDone.css'; /* Style des listes Todo Doing et Done */
+@import './css/Tache.css'; /* Style des taches et composant tache */
+@import './css/Modal.css'; /* Style des modal */
+@import './css/ModalTuto.css'; /* style du modal tutos*/
+@import './css/CloakJS.css'; /* Fonction pour cacher les modals*/
+
+/*Responsive*/
+@import './css/Responsive/Tablette.css'; /* Adpatation (1024px)*/
+@import './css/Responsive/PetiteTablette.css'; /* Adpatation (850px)*/
+@import './css/Responsive/Mobile.css'; /* Adpatation (480px)*/

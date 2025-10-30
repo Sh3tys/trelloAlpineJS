@@ -1,0 +1,107 @@
+@media screen and (max-width: 480px) {
+  header > div {
+    padding: 10px 15px;
+  }
+
+  header > div > span:nth-child(2) {
+    font-size: 32px;
+  }
+
+  header > div > span:nth-child(3) {
+    font-size: 14px;
+  }
+
+  header > div > button:last-child {
+    font-size: 16px;
+    padding: 10px 20px;
+  }
+
+  main > div:first-child {
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .list {
+    padding: 15px;
+    max-height: 350px;
+  }
+
+  .list > span {
+    font-size: 18px;
+    padding: 10px 15px;
+  }
+
+  .list > ul li {
+    padding: 12px;
+  }
+
+  .list > ul li > div:first-child > span {
+    font-size: 15px;
+  }
+
+  .list > ul li > div > span {
+    font-size: 13px;
+  }
+
+  .list > ul li > div > span > input[type='checkbox'] {
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+  }
+
+  .modal-content {
+    padding: 20px;
+    width: 95%;
+  }
+
+  .modal-backdrop .modal-content:has(h4) {
+    max-height: 70vh;
+    padding: 15px 18px;
+    width: 95%;
+  }
+
+  .modal-content > h3 {
+    font-size: 22px;
+    margin-bottom: 12px;
+  }
+
+  .modal-content > h4 {
+    font-size: 17px;
+    margin-top: 12px;
+    margin-bottom: 8px;
+  }
+
+  .modal-content > p {
+    font-size: 12px;
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+
+  .modal-content > ul {
+    font-size: 11px;
+    margin-left: 18px;
+    line-height: 1.6;
+  }
+
+  .modal-content > ul > li {
+    margin-bottom: 6px;
+  }
+
+  .modal-content > button:only-of-type {
+    font-size: 15px;
+    padding: 11px 20px;
+  }
+
+  /* Troisième div des tâches sur mobile */
+  .list > ul li > div:nth-child(3) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .list > ul li > div:nth-child(3) > button {
+    width: 100%;
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+}

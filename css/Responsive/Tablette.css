@@ -1,0 +1,55 @@
+/* Tablettes (max-width: 1024px) */
+@media screen and (max-width: 1024px) {
+  header > div {
+    padding: 5px 40px;
+    gap: 15px;
+  }
+
+  header > div > span:nth-child(2) {
+    font-size: 40px;
+  }
+
+  header > div > span:nth-child(3) {
+    font-size: 18px;
+  }
+
+  main > div:first-child {
+    gap: 15px;
+    padding: 20px;
+  }
+
+  .list {
+    min-width: 220px;
+  }
+
+  .list > span {
+    font-size: 20px;
+    padding: 12px 15px;
+  }
+
+  main > div:first-child > div:last-child {
+    min-width: 250px;
+    max-width: 300px;
+  }
+
+  .modal-backdrop .modal-content:has(h4) {
+    max-height: 80vh;
+    padding: 20px 25px;
+  }
+
+  .modal-content > h3 {
+    font-size: 26px;
+  }
+
+  .modal-content > h4 {
+    font-size: 19px;
+  }
+
+  .modal-content > p {
+    font-size: 14px;
+  }
+
+  .modal-content > ul {
+    font-size: 13px;
+  }
+}
