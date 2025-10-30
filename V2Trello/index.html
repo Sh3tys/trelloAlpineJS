@@ -20,7 +20,7 @@
         <button @click="$store.dataStore.infoModal()">ⓘ</button>
         <span>Trellium</span>
         <span
-          x-text="`Totales : ${$store.dataStore.Todo.length + $store.dataStore.Doing.length + $store.dataStore.Done.length} tâche${($store.dataStore.Todo.length + $store.dataStore.Doing.length + $store.dataStore.Done.length) > 1 ? 's' : ''}`"
+          x-text="`Toutes : ${$store.dataStore.Todo.length + $store.dataStore.Doing.length + $store.dataStore.Done.length} tâche${($store.dataStore.Todo.length + $store.dataStore.Doing.length + $store.dataStore.Done.length) > 1 ? 's' : ''}`"
         ></span>
 
         <button @click="$store.dataStore.openTodo = true">
