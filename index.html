@@ -20,22 +20,23 @@
         <button @click="$store.dataStore.infoModal()">ⓘ</button>
         <span>Trellium</span>
         <span
-          x-text="`Taches totales : ${$store.dataStore.Todo.length + $store.dataStore.Doing.length + $store.dataStore.Done.length} tache${($store.dataStore.Todo.length + $store.dataStore.Doing.length + $store.dataStore.Done.length) > 1 ? 's' : ''}`"
+          x-text="`Totales : ${$store.dataStore.Todo.length + $store.dataStore.Doing.length + $store.dataStore.Done.length} tâche${($store.dataStore.Todo.length + $store.dataStore.Doing.length + $store.dataStore.Done.length) > 1 ? 's' : ''}`"
         ></span>
 
         <button @click="$store.dataStore.openTodo = true">
-          Ajouter une tache
+          Ajouter une tâche
         </button>
       </div>
     </header>
     <main>
       <!-- ===================== CONTENEUR PRINCIPAL ===================== -->
+
       <div x-data>
         <!-- ===================== TODO ===================== -->
         <div x-show="$store.dataStore.todoList" class="list">
           <span @dblclick="$store.dataStore.filtreList('todo')"
-            >A faire (<span x-text="$store.dataStore.Todo.length"></span>
-            tache<span
+            >à traiter (<span x-text="$store.dataStore.Todo.length"></span>
+            tâche<span
               x-text="($store.dataStore.Todo.length > 1) ? 's' : '' "
             ></span
             >)</span
@@ -58,7 +59,7 @@
                 </div>
                 <div>
                   <span>
-                    commencer :
+                    à traiter :
                     <input
                       type="checkbox"
                       :checked="v[2]"
@@ -77,8 +78,8 @@
         <!-- ===================== DOING ===================== -->
         <div x-show="$store.dataStore.doingList" class="list">
           <span @dblclick="$store.dataStore.filtreList('doing')"
-            >En cours (<span x-text="$store.dataStore.Doing.length"></span>
-            tache<span
+            >en cours (<span x-text="$store.dataStore.Doing.length"></span>
+            tâche<span
               x-text="($store.dataStore.Doing.length > 1)?  's' : '' "
             ></span
             >)</span
@@ -122,8 +123,8 @@
         <!-- ===================== DONE ===================== -->
         <div x-show="$store.dataStore.doneList" class="list">
           <span @dblclick="$store.dataStore.filtreList('done')"
-            >Fait (<span x-text="$store.dataStore.Done.length"></span>
-            tache<span
+            >traitée (<span x-text="$store.dataStore.Done.length"></span>
+            tâche<span
               x-text="($store.dataStore.Done.length > 1)?  's' : '' "
             ></span
             >)</span
@@ -166,7 +167,7 @@
         <div>
           <input
             type="text"
-            placeholder="Rechercher une tache..."
+            placeholder="Rechercher une tâche..."
             x-model="$store.dataStore.search"
           />
           <ul x-show="$store.dataStore.search.trim()">
@@ -212,7 +213,7 @@
       }"
               x-init="$watch('$store.dataStore.openTodo', value => { if (value) videInput() })"
             >
-              <h3>Ajouter une tache</h3>
+              <h3>Ajouter une tâche</h3>
               <input
                 type="text"
                 placeholder="Nom de la tache"
@@ -268,7 +269,7 @@
     }"
           x-init="$watch('$store.dataStore.openEdit', value => { if (value) initEdit() })"
         >
-          <h3>Modifier la tache</h3>
+          <h3>Modifier la tâche</h3>
           <label>
             Nom :
             <input type="text" x-model="name" placeholder="Nom de la tache" />
@@ -328,27 +329,27 @@
             <!-- SECTION 1 - PRISE EN MAIN -->
             <h4>1. Prise en main</h4>
             <p>
-              Trellium vous permet d’organiser vos taches de manière fluide
+              Trellium vous permet d’organiser vos tâches de manière fluide
               grace à trois colonnes principales :
             </p>
             <ul>
               <li>
-                <strong>A faire</strong> : vos nouvelles taches apparaissent ici
-                après leur création.
+                <strong>à traiter</strong> : vos nouvelles tâches apparaissent
+                ici après leur création.
               </li>
               <li>
-                <strong>En cours</strong> : pour indiquer qu’une tache est en
+                <strong>En cours</strong> : pour indiquer qu’une tâche est en
                 train d’être réalisée, cochez simplement la case verte.
               </li>
               <li>
-                <strong>Fait</strong> : une fois terminée, la tache passe ici et
-                peut être supprimée si vous le souhaitez (confirmation
+                <strong>traitée</strong> : une fois terminée, la tâche passe ici
+                et peut être supprimée si vous le souhaitez (confirmation
                 demandée).
               </li>
             </ul>
 
             <!-- SECTION 2 - MODIFICATION DES TACHES -->
-            <h4>2. Modification des taches</h4>
+            <h4>2. Modification des tâches</h4>
             <p>
               Si vous avez fait une erreur dans le titre, la description ou
               l’emplacement d’une tache, cliquez sur le bouton "Modifier" à côté
